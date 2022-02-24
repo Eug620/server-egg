@@ -10,8 +10,8 @@
 const userValidate = require('./user')
 //参数校验数据
 module.exports = {
- // 对应路由的/User/userList的（User）
- user: {
-  ...userValidate
- }
+    // 对应路由的/User/userList的（User）
+    user: {
+        ...userValidate
+    }
 }

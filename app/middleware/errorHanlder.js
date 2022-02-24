@@ -24,7 +24,7 @@ module.exports = () => {
       // 错误响应对象 (status === 422 参数校验监听拦截)
       const msg = (status === 500 && isProd) ? 'Internal Server Error' : message;
       const data = status === 422 ? err.errors.map((item) => {
-        return `${item.field}--${item.message}`;
+        return `${item.field} ${item.message}`;
       }) : undefined;
       ctx.returnBody(status, msg, data);
     }

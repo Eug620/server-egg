@@ -12,17 +12,29 @@ const Controller = require('egg').Controller;
 
 class UserController extends Controller {
   // 用户列表all
-  async all() {
+  async all () {
     const { ctx } = this;
     const result = await ctx.service.user.all();
     ctx.body = result
     ctx.returnBody(200, '查询成功', result)
   }
   // 新增用户
-  async add() {
+  async add () {
     const { ctx } = this;
     await ctx.service.user.add();
     ctx.returnBody(200, '新增成功')
+  }
+
+  // 更新用户
+  async update () {
+    const { ctx } = this
+    await ctx.service.user.update()
+    ctx.returnBody(200, '更新成功')
+  }
+  async delete () {
+    const { ctx } = this
+    await ctx.service.user.delete()
+    ctx.returnBody(200, '删除成功')
   }
 }
 

@@ -7,15 +7,15 @@
  * @FilePath     : /egg-example/app/validateConfig/user.js
  */
 module.exports = {
-  // 对应路由的/User/userList的（userList）
-  // userList: {
-  //   username: { type: 'string', required: false },
-  //   packageName: { type: 'string', required: true },
-  //   // sort: { type: 'number',required: true },
-  // },
   add: {
     name: { type: 'string', required: true },
     password: { type: 'string', required: true },
     email: { type: 'string', required: true },
+  },
+  update: { 
+    id: { type: 'string', required: true }
+  },
+  delete: { 
+    id: { type: 'string', required: true }
   }
 }

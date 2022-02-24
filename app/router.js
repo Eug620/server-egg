@@ -12,21 +12,7 @@ module.exports = app => {
   // router.get('/get', controller.user.get);
 
 
-  // // post
-  // router.post('/post', controller.user.post);
-
-  // article mysql
-  // router.get('/article', controller.article.info);
-
-
   // 参数校验
   // router.get('/user/userList', controller.user.userList);
-
-
-  // egg
-  // list
-  router.get('/user/all', controller.user.all)
-  router.post('/user/add', controller.user.add)
-
-
+  require('./router/user')(app);
 };
