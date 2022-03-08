@@ -1,10 +1,10 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:52:37
- * @LastEditTime : 2022-02-11 18:08:40
+ * @LastEditTime : 2022-03-08 14:55:34
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
- * @FilePath     : /egg-example/app/controller/user.js
+ * @FilePath     : /server-egg/app/controller/user.js
  */
 'use strict';
 
@@ -31,10 +31,18 @@ class UserController extends Controller {
     await ctx.service.user.update()
     ctx.returnBody(200, '更新成功')
   }
+  // 删除
   async delete () {
     const { ctx } = this
     await ctx.service.user.delete()
     ctx.returnBody(200, '删除成功')
+  }
+  // 分页
+  async index () {
+    const { ctx } = this;
+    const result = await ctx.service.user.index();
+    ctx.body = result
+    ctx.returnBody(200, '查询成功', result)
   }
 }
 
