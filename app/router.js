@@ -1,3 +1,11 @@
+/* 
+ * @Author       : Eug
+ * @Date         : 2022-03-08 14:50:53
+ * @LastEditTime : 2022-03-08 15:41:04
+ * @LastEditors  : Eug
+ * @Descripttion : Descripttion
+ * @FilePath     : /server-egg/app/router.js
+ */
 'use strict';
 
 /**
@@ -15,4 +23,5 @@ module.exports = app => {
   // 参数校验
   // router.get('/user/userList', controller.user.userList);
   require('./router/user')(app);
+  require('./router/article')(app);
 };

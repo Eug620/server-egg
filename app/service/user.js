@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:55:30
- * @LastEditTime : 2022-03-08 15:29:14
+ * @LastEditTime : 2022-03-09 16:57:34
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/service/user.js
@@ -68,12 +68,14 @@ class UserService extends Service {
    */
   async index () {
     const { size, page } = this.ctx.params
+    const current_size = size || 10
+    const current_page = ((isNaN(page) || page < 1) ? 0 : page - 1) * current_size
     const SQL_STRING = `
       SELECT 
       id, email, create_time, update_time, name
       FROM user 
       ORDER BY update_time DESC  
-      LIMIT ${(isNaN(page) || page < 1) ? 0 : page - 1}, ${size || 10}
+      LIMIT ${ current_page }, ${ current_size }
     `
     const result = await this.app.mysql.query(SQL_STRING)
     return result;
