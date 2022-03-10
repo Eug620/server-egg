@@ -6,13 +6,15 @@
 {% set navActive = "about" %}
 
 {% block head %}
+<link rel="stylesheet" href="https://unpkg.com/wingcss"/>
+<link rel="stylesheet" type="text/css" href="../../public/css/header.css">
+<link rel="stylesheet" type="text/css" href="../../public/css/index.css">
+<link rel="stylesheet" type="text/css" href="../../public/css/footer.css">
 {% endblock %}
 
 {% block content %}
-  <div class="page-wrapper">
-    <!-- 导入公共的nav模板 -->
-    {% include './base/nav.njk' %}
-
+  {% include './base/header.njk' %}
+  <div class="page-wrapper container">
     <!-- 背景图 -->
     <section class="banner-wrapper">
       <span>{{ userName }}</span>
@@ -21,9 +23,16 @@
     <!-- 渲染html模板演示 -->
     <div>{{content | safe}}</div>
 
+        
+    <div class="row">
+      <div class="col-3">3</div>
+      <div class="col-3">3</div>
+      <div class="col-6">6</div>
+    </div>
+
     <!-- 导入公共的底部模板 -->
-    {% include './base/footer.njk' %}
   </div>
+  {% include './base/footer.njk' %}
 {% endblock %}
 
 {% block script %}

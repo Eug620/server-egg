@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 14:50:53
- * @LastEditTime : 2022-03-10 15:25:06
+ * @LastEditTime : 2022-03-10 17:02:05
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/controller/home.js

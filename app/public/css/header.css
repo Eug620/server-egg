@@ -1,0 +1,12 @@
+.Home-header{
+  box-shadow: #ccc 0 0 10px 0;
+  position: fixed;
+  width: 100vw;
+  background-color: #fff;
+  height: 60px;
+
+}
+
+.Home-header-container{
+  /* background-color: #ccc; */
+}

@@ -1,0 +1,6 @@
+.page-wrapper{
+  padding: 75px 0 0;
+  min-height: calc(100vh - 140px);
+  box-sizing: border-box;
+  overflow: scroll;
+}

@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 15:33:55
- * @LastEditTime : 2022-03-09 17:00:22
+ * @LastEditTime : 2022-03-10 17:00:45
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/controller/article.js
@@ -11,6 +11,9 @@
 const Controller = require('egg').Controller;
 
 class ArticleController extends Controller {
+  constructor() {
+    this.icon = 'test'
+  }
   // 文章列表all
   async all () {
     const { ctx } = this;
