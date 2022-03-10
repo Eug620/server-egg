@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 15:34:38
- * @LastEditTime : 2022-03-09 17:11:06
+ * @LastEditTime : 2022-03-10 11:56:42
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/service/article.js
@@ -17,14 +17,14 @@ class ArticleService extends Service {
     const SQL_STRING =
       `
       select 
-        article_id, 
-        user.name as user_name, 
-        article_title, 
-        article_describe, 
-        author, 
-        page_views, 
-        article.create_time as create_time, 
-        (SELECT COUNT(*) FROM comment WHERE article_id = article.article_id and pid = article.article_id ) as article_count
+        author,
+        page_views,
+        article.id,
+        article.title,
+        article.describe,
+        article.create_time,
+        user.name as user_name,
+        (SELECT COUNT(*) FROM comment WHERE article_id = article.id and pid = article.id ) as count
       from article LEFT JOIN user ON user.id = article.author
       order by create_time DESC
     `
@@ -41,17 +41,17 @@ class ArticleService extends Service {
     const SQL_STRING =
       `
       select 
-        article_id, 
-        article_title, 
-        article_describe, 
         author, 
         page_views, 
-        article.create_time as create_time, 
+        article.id, 
+        article.title, 
+        article.describe, 
+        article.create_time, 
         user.name as user_name, 
-        (SELECT COUNT(*) FROM comment WHERE article_id = article.article_id and pid = article.article_id ) as article_count
+        (SELECT COUNT(*) FROM comment WHERE article_id = article.id and pid = article.id ) as count
       from article LEFT JOIN user ON user.id = article.author
       order by create_time DESC
-      LIMIT ${ current_page }, ${ current_size }
+      LIMIT ${ current_page}, ${current_size}
     `
     const result = await this.app.mysql.query(SQL_STRING)
     return result;
@@ -60,22 +60,22 @@ class ArticleService extends Service {
   /**
    * @returns user detail 
    */
-  async detail () {
-    const { article_id } = this.ctx.params
+  async detail() {
+    const { id } = this.ctx.params
     const SQL_STRING =
     `
       select 
-        article_id, 
-        article_title, 
-        article_describe, 
-        article_content, 
         author, 
         page_views, 
-        article.create_time as create_time, 
+        article.id, 
+        article.title, 
+        article.content, 
+        article.describe, 
+        article.create_time, 
         user.name as user_name, 
-        (SELECT COUNT(*) FROM comment WHERE article_id = article.article_id and pid = article.article_id ) as article_count
+        (SELECT COUNT(*) FROM comment WHERE article_id = article.id and pid = article.id ) as count
       from article LEFT JOIN user ON user.id = article.author
-      where article_id = '${article_id}'
+      where article.id = '${id}'
     `
     const result = await this.app.mysql.query(SQL_STRING)
     return result[0] || {};

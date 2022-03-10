@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:42:57
- * @LastEditTime : 2022-03-10 11:39:20
+ * @LastEditTime : 2022-03-10 11:46:07
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/config/config.default.js
@@ -61,13 +61,13 @@ module.exports = appInfo => {
     // 单数据库信息配置
     client: {
       // host
-      host: '',
+      host: '47.93.229.170',
       // 端口号
       port: '3306',
       // 用户名
       user: 'root',
       // 密码
-      password: '',
+      password: 'ye13837885797',
       // 数据库名
       database: 'database_egg',
     },
