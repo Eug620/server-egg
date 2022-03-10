@@ -1,10 +1,10 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:42:57
- * @LastEditTime : 2022-02-11 18:11:52
+ * @LastEditTime : 2022-03-10 11:39:20
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
- * @FilePath     : /egg-example/config/config.default.js
+ * @FilePath     : /server-egg/config/config.default.js
  */
 /* eslint valid-jsdoc: "off" */
 
@@ -93,7 +93,7 @@ module.exports = appInfo => {
   // 启动配置项
   config.cluster = {
     listen: {
-      port: 3000,
+      port: 5000,
       hostname: '127.0.0.1',
       // path: '/var/run/egg.sock',
     }
