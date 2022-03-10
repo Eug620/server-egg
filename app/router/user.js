@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 14:50:53
- * @LastEditTime : 2022-03-08 15:03:14
+ * @LastEditTime : 2022-03-10 14:25:50
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/router/user.js
@@ -21,6 +21,8 @@ module.exports = app => {
      * update_time
      */
     const { router, controller } = app;
+    // console.log(controller);
+    
     router.get('/user/all', controller.user.all)
     router.post('/user/add', controller.user.add)
     router.post('/user/update', controller.user.update)

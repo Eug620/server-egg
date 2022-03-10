@@ -1,0 +1,31 @@
+{% extends "./base/base.njk" %}
+
+{% block title %}egg-api{% endblock %}
+{% block description %}接口服务总览{% endblock %}
+{% block keywords %}邮箱: xxx@xxx.com,联系我{% endblock %}
+{% set navActive = "about" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+  <div class="page-wrapper">
+    <!-- 导入公共的nav模板 -->
+    {% include './base/nav.njk' %}
+
+    <!-- 背景图 -->
+    <section class="banner-wrapper">
+      <span>{{ userName }}</span>
+    </section>
+    
+    <!-- 渲染html模板演示 -->
+    <div>{{content | safe}}</div>
+
+    <!-- 导入公共的底部模板 -->
+    {% include './base/footer.njk' %}
+  </div>
+{% endblock %}
+
+{% block script %}
+ <script src="../public/js/index.js"></script>
+{% endblock %}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}默认标题{% endblock %}</title>
+    <meta name="keywords" content="{% block keywords %}默认关键词{% endblock %}">
+    <meta name="description" content="{% block description %}description默认内容{% endblock %}">
+    <link rel="stylesheet" type="text/css" href="../../public/css/base.css">
+    {% block head %}{% endblock %}
+  </head>
+
+  <body>
+    <!-- 主体内容部分 -->
+    {% block content %}{% endblock %}
+
+    <!-- script部分 -->
+    {% block script %}{% endblock %}
+  </body>
+</html>

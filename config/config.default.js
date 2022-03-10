@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:42:57
- * @LastEditTime : 2022-03-10 14:15:30
+ * @LastEditTime : 2022-03-10 14:48:56
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/config/config.default.js
@@ -107,6 +107,16 @@ module.exports = appInfo => {
       const args = Array.prototype.slice.call(arguments);
       return I18n.__.apply(I18n, args);
     },
+  }
+
+  // 模版引擎
+  config.view = {
+    // 定义映射的文件后缀名
+    // 此处我们定义为.njk，那么我们的模板都需要以.njk结束，
+    // 这样该类型的文件才会被我们的模板插件进行处理
+    mapping: {
+      '.njk': 'nunjucks',
+    }
   }
 
   return {
