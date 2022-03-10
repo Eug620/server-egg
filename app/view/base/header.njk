@@ -1,7 +1,9 @@
 <div class='Home-header'>
   <div class="container Home-header-container">
-    {% for item in list %}
+    {% for item, value in list %}
+    <a href="#{{item}}">
       <button class='outline'>{{item}}</button>
+    </a>
     {% endfor %}
   </div>
 </div>
