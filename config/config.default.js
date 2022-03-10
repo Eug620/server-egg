@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:42:57
- * @LastEditTime : 2022-03-10 14:48:56
+ * @LastEditTime : 2022-03-10 15:50:53
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/config/config.default.js
@@ -10,7 +10,7 @@
 
 'use strict';
 
-const I18n = require('i18n');
+const I18n = require('I18n');
 
 I18n.configure({
   locales: ['zh-CN'],
