@@ -7,7 +7,7 @@
     "declarations": true
   },
   "dependencies": {
-    "I18n": "^0.14.1",
+    "I18n": "^0.14.2",
     "egg": "^2.15.1",
     "egg-cors": "^2.2.3",
     "egg-mysql": "^3.1.0",
