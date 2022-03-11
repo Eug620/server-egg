@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 14:50:53
- * @LastEditTime : 2022-03-09 17:08:39
+ * @LastEditTime : 2022-03-11 14:28:17
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/router/article.js
@@ -15,6 +15,6 @@ module.exports = app => {
     router.get('/article/all', controller.article.all)
     router.get('/article/index', controller.article.index)
     router.get('/article/detail', controller.article.detail)
-    // router.post('/article/add', controller.article.all)
+    router.post('/article/add', controller.article.add)
     // router.post('/article/update', controller.article.all)
 };
