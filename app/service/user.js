@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:55:30
- * @LastEditTime : 2022-03-09 16:57:34
+ * @LastEditTime : 2022-03-11 18:28:42
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/service/user.js
@@ -79,6 +79,38 @@ class UserService extends Service {
     `
     const result = await this.app.mysql.query(SQL_STRING)
     return result;
+  }
+
+  async login () {
+    const { app } = this;
+    const { name, password } = this.ctx.params
+    const result = await this.app.mysql.select('user', {
+      columns: ['id', 'email', 'create_time', 'update_time', 'name'], //查询字段，全部查询则不写，相当于查询*
+      where: {
+        name,
+        password
+      }
+    })
+    
+    if (result[0]) {
+      //生成 token 的方式
+      const token = app.jwt.sign({
+        name, //需要存储的 token 数据
+        password
+        //......
+      }, app.config.jwt.secret);
+      // 返回 token 到前端
+      return {
+        msg: '登录成功',
+        result: result[0],
+        token
+      };
+    } else {
+      return {
+        msg: '用户不存在',
+        result: null
+      };
+    }
   }
 }
 

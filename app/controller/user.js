@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:52:37
- * @LastEditTime : 2022-03-08 14:55:34
+ * @LastEditTime : 2022-03-11 18:31:18
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/controller/user.js
@@ -43,6 +43,13 @@ class UserController extends Controller {
     const result = await ctx.service.user.index();
     ctx.body = result
     ctx.returnBody(200, '查询成功', result)
+  }
+  // 登录
+  async login () {
+    const { ctx } = this;
+    const { msg, result, token } = await ctx.service.user.login();
+    ctx.body = result
+    ctx.returnBody(200, msg, result, { token })
   }
 }
 

@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 14:50:53
- * @LastEditTime : 2022-03-10 14:48:10
+ * @LastEditTime : 2022-03-11 17:09:37
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/config/plugin.js
@@ -29,6 +29,10 @@ module.exports = {
   nunjucks: {
     enable: true,
     package: 'egg-view-nunjucks',
+  },
+  jwt: {
+    enable: true,
+    package: "egg-jwt"
   }
 };
 

@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:42:57
- * @LastEditTime : 2022-03-10 15:50:53
+ * @LastEditTime : 2022-03-11 17:57:49
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/config/config.default.js
@@ -86,6 +86,7 @@ module.exports = appInfo => {
     'errorHanlder',
     'requier',
     'params',
+    'authorization'
   ];
 
 
@@ -118,6 +119,26 @@ module.exports = appInfo => {
       '.njk': 'nunjucks',
     }
   }
+
+  // 开启中间件，登录页不需要权限认证
+  config.authorization = {
+    enable: true,
+    match(ctx) { // 只匹配指定路由，反之如果只忽略指定路由，可以用ignore
+      //匹配不需要验证token的路由
+      const url = ctx.request.url;
+      const ignore_url = ['/', '/user/login']
+      if (ignore_url.includes(url.split('?')[0])) {
+          return false;
+      } else {
+          return true; // 开启中间件，开启token验证
+      }
+    }
+  };
+
+  // egg-jwt
+  config.jwt = {
+    secret: "88888888"//自定义 token 的加密条件字符串
+  };
 
   return {
     ...config,
