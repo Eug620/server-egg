@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 14:50:53
- * @LastEditTime : 2022-03-10 19:44:06
+ * @LastEditTime : 2022-03-11 14:23:49
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/controller/home.js
@@ -18,8 +18,6 @@ class HomeController extends Controller {
       renderList[key] = Object.keys(controller[key]).map(v => `/${key}/${v}`)
     }
     await ctx.render('index.njk', {
-      userName: '张三',
-      content: '这是传入的内容',
       list: renderList
     })
   }

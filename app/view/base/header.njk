@@ -2,7 +2,7 @@
   <div class="container Home-header-container">
     {% for item, value in list %}
     <a href="#{{item}}">
-      <button class='outline'>{{item}}</button>
+      <button class='outline headerButton' onClick="handleClick(this)">{{item}}</button>
     </a>
     {% endfor %}
   </div>
