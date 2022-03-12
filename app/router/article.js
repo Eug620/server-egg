@@ -16,5 +16,6 @@ module.exports = app => {
     router.get('/article/index', controller.article.index)
     router.get('/article/detail', controller.article.detail)
     router.post('/article/add', controller.article.add)
-    // router.post('/article/update', controller.article.all)
+    router.post('/article/update', controller.article.update)
+    router.post('/article/delete', controller.article.delete)
 };

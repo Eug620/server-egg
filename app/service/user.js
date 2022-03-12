@@ -40,11 +40,11 @@ class UserService extends Service {
    * email
    */
   async update () {
-    const { id, name, password, email } = this.ctx.params
+    const { name, password, email, decode } = this.ctx.params
     const update_time = Date.parse(new Date())
     const options = {
       where: {
-        id
+        id: decode.id
       }
     }
 
@@ -96,7 +96,8 @@ class UserService extends Service {
       //生成 token 的方式
       const token = app.jwt.sign({
         name, //需要存储的 token 数据
-        password
+        password,
+        id: result[0].id
         //......
       }, app.config.jwt.secret);
       // 返回 token 到前端

@@ -12,7 +12,17 @@
  */
 module.exports = options => {
   return async function params(ctx, next) {
+    let decode;
+    if (ctx.get('Authorization')) {
+      const token = ctx.request.header.authorization.substring(7);
+      try {
+        decode = ctx.app.jwt.verify(token, options.secret);
+      } catch (error) {
+        console.warn(ctx.request.url, error)
+      }
+    }
     ctx.params = {
+      decode,
       ...ctx.query,
       ...ctx.request.body
     }

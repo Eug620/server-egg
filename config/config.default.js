@@ -123,14 +123,14 @@ module.exports = appInfo => {
   // 开启中间件，登录页不需要权限认证
   config.authorization = {
     enable: true,
-    match(ctx) { // 只匹配指定路由，反之如果只忽略指定路由，可以用ignore
+    match (ctx) { // 只匹配指定路由，反之如果只忽略指定路由，可以用ignore
       //匹配不需要验证token的路由
       const url = ctx.request.url;
       const ignore_url = ['/', '/user/login']
       if (ignore_url.includes(url.split('?')[0])) {
-          return false;
+        return false;
       } else {
-          return true; // 开启中间件，开启token验证
+        return true; // 开启中间件，开启token验证
       }
     }
   };

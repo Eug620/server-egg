@@ -40,5 +40,17 @@ class ArticleController extends Controller {
     const { code , message } = await ctx.service.article.add();
     this.ctx.returnBody(code , message, null)
   }
+
+  async update () {
+    const { ctx } = this;
+    const { code , message } = await ctx.service.article.update();
+    this.ctx.returnBody(code , message, null)
+  }
+
+  async delete () {
+    const { ctx } = this;
+    const { code , message } = await ctx.service.article.delete();
+    this.ctx.returnBody(code , message, null)
+  }
 }
 module.exports = ArticleController;
