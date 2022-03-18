@@ -1,10 +1,10 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 15:36:32
- * @LastEditTime : 2022-02-11 15:36:33
+ * @LastEditTime : 2022-03-18 15:56:03
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
- * @FilePath     : /egg-example/app/middleware/params.js
+ * @FilePath     : /server-egg/app/middleware/params.js
  */
 /**
  * 获取请求参数中间件

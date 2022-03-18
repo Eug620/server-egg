@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 14:50:53
- * @LastEditTime : 2022-03-11 18:31:59
+ * @LastEditTime : 2022-03-18 15:40:38
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/router/user.js
@@ -20,12 +20,12 @@ module.exports = app => {
      * create_time
      * update_time
      */
-    const { router, controller } = app;
+    const { router, controller, jwt } = app;
     
-    router.get('/user/all', controller.user.all)
+    router.get('/user/all', jwt, controller.user.all)
     router.post('/user/add', controller.user.add)
-    router.post('/user/update', controller.user.update)
-    router.post('/user/delete', controller.user.delete)
-    router.get('/user/index', controller.user.index)
+    router.post('/user/update', jwt, controller.user.update)
+    router.post('/user/delete', jwt, controller.user.delete)
+    router.get('/user/index', jwt, controller.user.index)
     router.post('/user/login', controller.user.login)
 };

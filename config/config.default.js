@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:42:57
- * @LastEditTime : 2022-03-11 17:57:49
+ * @LastEditTime : 2022-03-18 15:58:06
  * @LastEditors  : Eug
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/config/config.default.js
@@ -122,7 +122,8 @@ module.exports = appInfo => {
 
   // 开启中间件，登录页不需要权限认证
   config.authorization = {
-    enable: true,
+    // 设置为true, 走以下判断是否鉴权
+    enable: false,
     match (ctx) { // 只匹配指定路由，反之如果只忽略指定路由，可以用ignore
       //匹配不需要验证token的路由
       const url = ctx.request.url;
