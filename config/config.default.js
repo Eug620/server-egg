@@ -1,8 +1,8 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:42:57
- * @LastEditTime : 2022-03-18 15:58:06
- * @LastEditors  : Eug
+ * @LastEditTime: 2022-07-15 19:52:46
+ * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/config/config.default.js
  */
@@ -95,7 +95,7 @@ module.exports = appInfo => {
   config.cluster = {
     listen: {
       port: 5000,
-      hostname: '127.0.0.1',
+      hostname: '127.0.0.0',
       // path: '/var/run/egg.sock',
     }
   }
