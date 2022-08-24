@@ -24,4 +24,5 @@ module.exports = app => {
   // router.get('/user/userList', controller.user.userList);
   require('./router/user')(app);
   require('./router/article')(app);
+  require('./router/route')(app);
 };

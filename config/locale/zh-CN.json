@@ -4,5 +4,7 @@
 	"should not be empty": "不能为空",
 	"invalid": "无效",
 	"should be an email": "应该是电子邮件格式",
-	"should be a number": "should be a number"
+	"should be a number": "应该是一个数字",
+	"should be a boolean": "应该是一个布尔",
+	"should be an integer": "should be an integer"
 }

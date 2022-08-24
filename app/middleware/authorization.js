@@ -21,14 +21,14 @@ module.exports = (options) => {
           ctx.status = 401;
           ctx.body = {
             code: 401,
-            msg: 'token过期'
+            msg: 'token过期' + error.message
           }
           return;
         } else {
           ctx.status = 401;
           ctx.body = {
             code: 401,
-            msg: 'token失效'
+            msg: 'token失效' + error.message
           }
           return;
         }

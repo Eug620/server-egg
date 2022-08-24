@@ -9,6 +9,7 @@
 'use strict';
 const userValidate = require('./user')
 const articleValidate = require('./article')
+const routeValidate = require('./route')
 //参数校验数据
 module.exports = {
     // 对应路由的/User/userList的（User）
@@ -17,5 +18,8 @@ module.exports = {
     },
     article: {
         ...articleValidate
+    },
+    route:{
+        ...routeValidate
     }
 }

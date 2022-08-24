@@ -84,7 +84,7 @@ class UserService extends Service {
   async login () {
     const { app } = this;
     const { name, password } = this.ctx.params
-    const result = await this.app.mysql.select('user', {
+    const [ result ] = await this.app.mysql.select('user', {
       columns: ['id', 'email', 'create_time', 'update_time', 'name'], //查询字段，全部查询则不写，相当于查询*
       where: {
         name,
@@ -92,18 +92,20 @@ class UserService extends Service {
       }
     })
     
-    if (result[0]) {
+    if (result) {
+      // 过期时间
+      let term = (60 * 60 * 24) + 's'
       //生成 token 的方式
       const token = app.jwt.sign({
         name, //需要存储的 token 数据
         password,
-        id: result[0].id
+        id: result.id
         //......
-      }, app.config.jwt.secret);
+      }, app.config.jwt.secret, { expiresIn: term });
       // 返回 token 到前端
       return {
         msg: '登录成功',
-        result: result[0],
+        result,
         token
       };
     } else {
