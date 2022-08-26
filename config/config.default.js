@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:42:57
- * @LastEditTime: 2022-08-27 05:04:08
+ * @LastEditTime: 2022-08-27 05:17:39
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/config/config.default.js
@@ -50,10 +50,10 @@ module.exports = appInfo => {
       enable: false,
       ignoreJSON: true,
     },
-    domainWhiteList: ['http://www.baidu.com', 'http://47.93.229.170:80'], // 配置白名单
+    domainWhiteList: ['http://www.baidu.com', 'http://47.93.229.170:*'], // 配置白名单
   }
   config.cors = {
-    // origin: '*',//允许所有跨域访问，注释掉则允许上面 白名单 访问
+    origin: 'http://47.93.229.170:*',//允许所有跨域访问，注释掉则允许上面 白名单 访问
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH',
   };
 
