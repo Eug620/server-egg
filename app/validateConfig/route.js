@@ -17,5 +17,6 @@ module.exports = {
         icon: { type: 'string', required: true },
         redirect: { type: 'string', required: true },
         service: { type: 'string', required: true },
+        title: { type: 'string', required: true },
     }
 }

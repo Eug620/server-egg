@@ -1,8 +1,8 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 17:35:19
- * @LastEditTime : 2022-02-11 17:50:10
- * @LastEditors  : Eug
+ * @LastEditTime: 2022-08-27 18:52:35
+ * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /egg-example/app/validateConfig/user.js
  */
@@ -13,9 +13,15 @@ module.exports = {
     email: { type: 'string', required: true },
   },
   update: { 
-    id: { type: 'string', required: true }
+    name: { type: 'string', required: true },
+    password: { type: 'string', required: true },
+    email: { type: 'string', required: true },
   },
   delete: { 
     id: { type: 'string', required: true }
+  },
+  login: {
+    name: { type: 'string', required: true },
+    password: { type: 'string', required: true },
   }
 }

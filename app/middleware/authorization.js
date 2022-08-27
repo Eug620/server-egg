@@ -1,8 +1,8 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-11 17:39:42
- * @LastEditTime : 2022-03-11 18:31:43
- * @LastEditors  : Eug
+ * @LastEditTime: 2022-08-27 18:40:12
+ * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/middleware/authorization.js
  */
@@ -21,14 +21,12 @@ module.exports = (options) => {
           ctx.status = 401;
           ctx.body = {
             code: 401,
-            msg: 'token过期' + error.message
           }
           return;
         } else {
           ctx.status = 401;
           ctx.body = {
             code: 401,
-            msg: 'token失效' + error.message
           }
           return;
         }
@@ -37,7 +35,6 @@ module.exports = (options) => {
       ctx.status = 401;
       ctx.body = {
         code: 401,
-        msg: 'token缺失'
       }
       return;
     }

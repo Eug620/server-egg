@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:42:57
- * @LastEditTime: 2022-08-27 05:46:35
+ * @LastEditTime: 2022-08-27 18:48:23
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/config/config.default.js
@@ -33,7 +33,32 @@ module.exports = appInfo => {
 
   // add your user config here
   const userConfig = {
-    // myAppName: 'egg',
+    // 数据库表名
+    databaseName: {
+      routes: 'routes',
+      user: 'user',
+      article: 'article',
+      comment: 'comment',
+    },
+    // 状态码
+    statusType: {
+      204: '登录失败',
+      400: '请求错误',
+      401: 'Token错误',
+      403: '拒绝访问',
+      404: '请求地址出错',
+      408: '请求超时',
+      422: '参数错误',
+      413: 'Nginx等其他配置文件错误',
+      500: '服务器内部错误',
+      501: '服务未实现',
+      502: '网关错误',
+      503: '服务不可用',
+      504: '网关超时',
+      505: 'HTTP版本不受支持'
+    },
+    // token 过期时间
+    expiresIn:  (60 * 60 * 24) + 's'
   };
 
   // TODO
@@ -105,7 +130,7 @@ module.exports = appInfo => {
   config.validate = {
     // convert: false,
     // validateRoot: false,
-    translate () {
+    translate() {
       const args = Array.prototype.slice.call(arguments);
       return I18n.__.apply(I18n, args);
     },
@@ -125,7 +150,7 @@ module.exports = appInfo => {
   config.authorization = {
     // 设置为true, 走以下判断是否鉴权
     enable: false,
-    match (ctx) { // 只匹配指定路由，反之如果只忽略指定路由，可以用ignore
+    match(ctx) { // 只匹配指定路由，反之如果只忽略指定路由，可以用ignore
       //匹配不需要验证token的路由
       const url = ctx.request.url;
       const ignore_url = ['/', '/user/login']

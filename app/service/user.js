@@ -1,8 +1,8 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:55:30
- * @LastEditTime : 2022-03-11 18:28:42
- * @LastEditors  : Eug
+ * @LastEditTime: 2022-08-27 18:47:50
+ * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/service/user.js
  */
@@ -13,8 +13,8 @@ class UserService extends Service {
   /**
    * @returns user list all
    */
-  async all () {
-    const result = await this.app.mysql.select('user', {
+  async all() {
+    const result = await this.app.mysql.select(this.app.config.databaseName.user, {
       columns: ['id', 'email', 'create_time', 'update_time', 'name'], //查询字段，全部查询则不写，相当于查询*
     })
     return result;
@@ -25,12 +25,12 @@ class UserService extends Service {
    * password require
    * email require
    */
-  async add () {
+  async add() {
     const { name, password, email } = this.ctx.params
     const create_time = Date.parse(new Date())
     const update_time = Date.parse(new Date())
     const id = UUID.v4()
-    await this.app.mysql.insert('user', { id, name, password, email, create_time, update_time })
+    await this.app.mysql.insert(this.app.config.databaseName.user, { id, name, password, email, create_time, update_time })
   }
 
   /**
@@ -39,7 +39,7 @@ class UserService extends Service {
    * password
    * email
    */
-  async update () {
+  async update() {
     const { name, password, email, decode } = this.ctx.params
     const update_time = Date.parse(new Date())
     const options = {
@@ -49,24 +49,24 @@ class UserService extends Service {
     }
 
     const userInfo = { update_time }
-    if (name) userInfo['name'] = name
-    if (password) userInfo['password'] = password
-    if (email) userInfo['email'] = email
-    await this.app.mysql.update('user', userInfo, options)
+    if (name !== void 0) userInfo['name'] = name
+    if (password !== void 0) userInfo['password'] = password
+    if (email !== void 0) userInfo['email'] = email
+    await this.app.mysql.update(this.app.config.databaseName.user, userInfo, options)
   }
 
   /**
    * id require
    */
-  async delete () {
+  async delete() {
     const { id } = this.ctx.params
-    await this.app.mysql.delete('user', { id })
+    await this.app.mysql.delete(this.app.config.databaseName.user, { id })
   }
 
   /**
    * 默认 第一页 10 条
    */
-  async index () {
+  async index() {
     const { size, page } = this.ctx.params
     const current_size = size || 10
     const current_page = ((isNaN(page) || page < 1) ? 0 : page - 1) * current_size
@@ -75,33 +75,28 @@ class UserService extends Service {
       id, email, create_time, update_time, name
       FROM user 
       ORDER BY update_time DESC  
-      LIMIT ${ current_page }, ${ current_size }
+      LIMIT ${current_page}, ${current_size}
     `
     const result = await this.app.mysql.query(SQL_STRING)
     return result;
   }
 
-  async login () {
+  async login() {
     const { app } = this;
     const { name, password } = this.ctx.params
-    const [ result ] = await this.app.mysql.select('user', {
-      columns: ['id', 'email', 'create_time', 'update_time', 'name'], //查询字段，全部查询则不写，相当于查询*
-      where: {
-        name,
-        password
-      }
+    let result = await this.app.mysql.get(this.app.config.databaseName.user, {
+      name,
+      password
     })
-    
     if (result) {
-      // 过期时间
-      let term = (60 * 60 * 24) + 's'
+      delete result['password']
       //生成 token 的方式
       const token = app.jwt.sign({
         name, //需要存储的 token 数据
         password,
         id: result.id
         //......
-      }, app.config.jwt.secret, { expiresIn: term });
+      }, app.config.jwt.secret, { expiresIn: app.config.expiresIn });
       // 返回 token 到前端
       return {
         msg: '登录成功',
@@ -109,10 +104,18 @@ class UserService extends Service {
         token
       };
     } else {
-      return {
-        msg: '用户不存在',
-        result: null
-      };
+      let hasUser = await this.app.mysql.get(this.app.config.databaseName.user, { name })
+      if (hasUser) {
+        return Promise.reject({
+          status: 204,
+          message: 'Wrong account or password'
+        })
+      } else {
+        return Promise.reject({
+          status: 204,
+          message: 'User has expired'
+        })
+      }
     }
   }
 }

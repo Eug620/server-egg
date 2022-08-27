@@ -1,28 +1,28 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 17:31:49
- * @LastEditTime : 2022-02-11 18:10:21
- * @LastEditors  : Eug
+ * @LastEditTime: 2022-08-27 16:29:18
+ * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /egg-example/app/middleware/requier.js
  */
 //参数校验、参数过滤中间件
-const validateData = require('../validateConfig')
+const validateConfig = require('../validateConfig')
 module.exports = options => {
   return async (ctx, next) => {
-    let url = ctx.request.url;
+    let requestURL = ctx.request.url;
     // 拆分请求url，获取到controller和方法名
-    url = url.split('?')[0].split('/')
-    let valiData = validateData;
-    url.forEach(item => {
-      if (item) {
-        valiData = valiData[item];
+    requestURL = requestURL.split('?')[0].split('/')
+    let valiDataRule = validateConfig;
+    requestURL.forEach(url => {
+      if (url) {
+        valiDataRule = valiDataRule[url];
       }
     });
     checkPparams(ctx);
     //参数校验
-    if (valiData && url.some(v=>v)) {
-      ctx.validate(valiData, ctx.params)
+    if (valiDataRule && requestURL.some(v=>v)) {
+      ctx.validate(valiDataRule, ctx.params)
     }
     await next();
   }
