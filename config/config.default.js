@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:42:57
- * @LastEditTime: 2022-08-27 18:48:23
+ * @LastEditTime: 2022-08-28 12:35:58
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/config/config.default.js
@@ -39,6 +39,7 @@ module.exports = appInfo => {
       user: 'user',
       article: 'article',
       comment: 'comment',
+      Article_Comment: 'Article_Comment',
     },
     // 状态码
     statusType: {

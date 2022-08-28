@@ -1,8 +1,8 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 15:34:38
- * @LastEditTime : 2022-03-11 15:43:11
- * @LastEditors  : Eug
+ * @LastEditTime: 2022-08-28 11:42:53
+ * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/service/article.js
  */
@@ -77,8 +77,16 @@ class ArticleService extends Service {
       from article LEFT JOIN user ON user.id = article.author
       where article.id = '${id}'
     `
-    const result = await this.app.mysql.query(SQL_STRING)
-    return result[0] || {};
+    const [result] = await this.app.mysql.query(SQL_STRING)
+    const options = {
+      where: {
+        id: id
+      }
+    }
+    await this.app.mysql.update(this.app.config.databaseName.article,{
+      page_views: result.page_views + 1
+    }, options)
+    return result || {};
   }
 
   async add () {

@@ -1,8 +1,8 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 14:50:53
- * @LastEditTime : 2022-03-08 15:41:04
- * @LastEditors  : Eug
+ * @LastEditTime: 2022-08-28 12:39:18
+ * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/router.js
  */
@@ -24,5 +24,6 @@ module.exports = app => {
   // router.get('/user/userList', controller.user.userList);
   require('./router/user')(app);
   require('./router/article')(app);
+  require('./router/comment')(app);
   require('./router/route')(app);
 };
