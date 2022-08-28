@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 15:34:38
- * @LastEditTime: 2022-08-28 11:42:53
+ * @LastEditTime: 2022-08-28 15:10:54
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/service/article.js
@@ -24,7 +24,7 @@ class ArticleService extends Service {
         article.describe,
         article.create_time,
         user.name as user_name,
-        (SELECT COUNT(*) FROM comment WHERE article_id = article.id and pid = article.id ) as count
+        (SELECT COUNT(*) FROM ${this.app.config.databaseName.Article_Comment} WHERE article_id = article.id) as count
       from article LEFT JOIN user ON user.id = article.author
       order by create_time DESC
     `
@@ -48,7 +48,7 @@ class ArticleService extends Service {
         article.describe, 
         article.create_time, 
         user.name as user_name, 
-        (SELECT COUNT(*) FROM comment WHERE article_id = article.id and pid = article.id ) as count
+        (SELECT COUNT(*) FROM ${this.app.config.databaseName.Article_Comment} WHERE article_id = article.id ) as count
       from article LEFT JOIN user ON user.id = article.author
       order by create_time DESC
       LIMIT ${current_page}, ${current_size}
@@ -73,7 +73,7 @@ class ArticleService extends Service {
         article.describe, 
         article.create_time, 
         user.name as user_name, 
-        (SELECT COUNT(*) FROM comment WHERE article_id = article.id and pid = article.id ) as count
+        (SELECT COUNT(*) FROM ${this.app.config.databaseName.Article_Comment} WHERE article_id = article.id) as count
       from article LEFT JOIN user ON user.id = article.author
       where article.id = '${id}'
     `
@@ -91,7 +91,7 @@ class ArticleService extends Service {
 
   async add () {
     const { title, describe, content, decode } = this.ctx.params
-    const user_list = await this.app.mysql.select('user', {
+    const user_list = await this.app.mysql.select(this.app.config.databaseName.user, {
       where: {
         id: decode.id
       }
@@ -127,7 +127,7 @@ class ArticleService extends Service {
           id
         }
       }
-      await this.app.mysql.update('article', { title, content, describe }, options)
+      await this.app.mysql.update(this.app.config.databaseName.article, { title, content, describe }, options)
       return {
         code: 200,
         message: '新增成功'
@@ -142,7 +142,7 @@ class ArticleService extends Service {
   async update () {
     const { title, describe, content, id, decode } = this.ctx.params
     // 判断是否为当前所属用户的文章
-    const article_detail = await this.app.mysql.select('article', {
+    const article_detail = await this.app.mysql.select(this.app.config.databaseName.article, {
       where: {
         id: id
       }
@@ -168,7 +168,7 @@ class ArticleService extends Service {
         id
       }
     }
-    await this.app.mysql.update('article', { title, content, describe }, options)
+    await this.app.mysql.update(this.app.config.databaseName.article, { title, content, describe }, options)
     return {
       code: 200,
       message: '更新文章成功'
@@ -178,7 +178,7 @@ class ArticleService extends Service {
   async delete () {
     const { id, decode } = this.ctx.params
     // 判断是否为当前所属用户的文章
-    const article_detail = await this.app.mysql.select('article', {
+    const article_detail = await this.app.mysql.select(this.app.config.databaseName.article, {
       where: {
         id: id
       }
@@ -199,7 +199,7 @@ class ArticleService extends Service {
     }
 
     // 全部通过，可以删除
-    await this.app.mysql.delete('article', { id })
+    await this.app.mysql.delete(this.app.config.databaseName.article, { id })
     return {
       code: 200,
       message: '删除文章成功'
