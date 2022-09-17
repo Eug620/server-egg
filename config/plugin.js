@@ -1,8 +1,8 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 14:50:53
- * @LastEditTime : 2022-03-11 17:09:37
- * @LastEditors  : Eug
+ * @LastEditTime: 2022-09-17 00:52:43
+ * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/config/plugin.js
  */
@@ -20,11 +20,11 @@ module.exports = {
   },
   mysql: {
     enable: true,
-    package: 'egg-mysql',  
+    package: 'egg-mysql',
   },
   validate: {
     enable: true,
-    package: 'egg-validate', 
+    package: 'egg-validate',
   },
   nunjucks: {
     enable: true,
@@ -33,6 +33,11 @@ module.exports = {
   jwt: {
     enable: true,
     package: "egg-jwt"
+  },
+  //WebSocket
+  io: {
+    enable: true,
+    package: 'egg-socket.io'
   }
 };
 

@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 14:42:57
- * @LastEditTime: 2022-08-28 12:35:58
+ * @LastEditTime: 2022-09-18 02:43:56
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/config/config.default.js
@@ -11,7 +11,7 @@
 'use strict';
 
 const I18n = require('i18n');
-
+let id = 0
 I18n.configure({
   locales: ['zh-CN'],
   defaultLocale: 'zh-CN',
@@ -35,11 +35,14 @@ module.exports = appInfo => {
   const userConfig = {
     // 数据库表名
     databaseName: {
-      routes: 'routes',
-      user: 'user',
-      article: 'article',
-      comment: 'comment',
-      Article_Comment: 'Article_Comment',
+      routes: 'routes', // 路由表
+      user: 'user', // 用户表
+      article: 'article', // 文章表
+      comment: 'comment', //
+      Article_Comment: 'Article_Comment', // 文章评论表
+      Rooms: 'Rooms', // 房间表
+      Rooms_Staff: 'Rooms_Staff',// 房间成员表
+      User_Friend: 'User_Friend',// 用户好友表
     },
     // 状态码
     statusType: {
@@ -59,7 +62,7 @@ module.exports = appInfo => {
       505: 'HTTP版本不受支持'
     },
     // token 过期时间
-    expiresIn:  (60 * 60 * 24) + 's'
+    expiresIn: (60 * 60 * 24) + 's'
   };
 
   // TODO
@@ -166,6 +169,25 @@ module.exports = appInfo => {
   // egg-jwt
   config.jwt = {
     secret: "88888888"//自定义 token 的加密条件字符串
+  };
+
+  // websocket
+  config.io = {
+    init: {
+      wsEngine: 'ws',
+    },
+    namespace: {
+      '/': {
+        // connectionMiddleware是在client保持连接的时候调用的中间件
+        connectionMiddleware: ['auth'],
+        // packetMiddleware是在server发送包给client之后调用的中间件 加密处理
+        packetMiddleware: [],
+      },
+    },
+    generateId: req => { //自定义 socket.id 生成函数
+      console.log('generateId:', req._query.userId);
+      return req._query.userId // custom id must be unique
+    },
   };
 
   return {
