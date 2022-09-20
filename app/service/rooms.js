@@ -107,14 +107,26 @@ class UserService extends Service {
             id: room_id
         })
         if (result) {
-            await this.app.mysql.insert(this.app.config.databaseName.Rooms_Staff, { id, room_id, user_id: decode.id })
-            return {
-                code: 200,
-                message: '加入成功'
+            let isSameJoin = await this.app.mysql.get(this.app.config.databaseName.Rooms_Staff, {
+                room_id,
+                user_id: decode.id
+            })
+            console.log(isSameJoin,'isSameJoin');
+            if (isSameJoin) {
+                return {
+                    code: 403,
+                    message: '请勿重复加入'
+                }
+            } else {
+                await this.app.mysql.insert(this.app.config.databaseName.Rooms_Staff, { id, room_id, user_id: decode.id })
+                return {
+                    code: 200,
+                    message: '加入成功'
+                }
             }
         } else {
             return {
-                code: 200,
+                code: 403,
                 message: '房间不存在'
             }
         }
