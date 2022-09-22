@@ -1,10 +1,12 @@
 /*
- * @Author: eug yyh3531@163.com
- * @Date: 2022-09-17 00:54:36
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-09-18 02:29:36
- * @FilePath: /server-egg/app/io/middleware/chat.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-09-17 00:54:36
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2022-09-22 16:33:03
+ * @FilePath     : /server-egg/app/io/controller/nsp.js
+ * @Description  : filename
+ * 
+ * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
  */
 module.exports = app => {
     class Controller extends app.Controller {
@@ -18,7 +20,8 @@ module.exports = app => {
             try {
               const { target, payload } = message;
               if (!target) return;
-              const msg = ctx.helper.parseMsg('confabulate', payload, { client, target });
+              const { name } = await app.mysql.get(app.config.databaseName.user, { id: client })      
+              const msg = ctx.helper.parseMsg('confabulate', payload, { client, target, clientName: name });
               nsp.emit(target, msg);
             } catch (error) {
               app.logger.error(error);
