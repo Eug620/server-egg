@@ -2,9 +2,9 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-17 00:54:36
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-09-22 16:33:03
+ * @LastEditTime : 2022-09-23 10:45:19
  * @FilePath     : /server-egg/app/io/controller/nsp.js
- * @Description  : filename
+ * @Description  : io controller
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
  */
