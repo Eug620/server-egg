@@ -1,13 +1,3 @@
-/* 
- * @Author       : Eug
- * @Date         : 2022-02-11 14:42:57
- * @LastEditTime: 2022-09-18 02:43:56
- * @LastEditors: eug yyh3531@163.com
- * @Descripttion : Descripttion
- * @FilePath     : /server-egg/config/config.default.js
- */
-/* eslint valid-jsdoc: "off" */
-
 'use strict';
 
 const I18n = require('i18n');
