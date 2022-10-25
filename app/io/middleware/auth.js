@@ -1,16 +1,26 @@
 /*
- * @Author: eug yyh3531@163.com
- * @Date: 2022-09-17 00:55:03
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-09-18 02:27:49
- * @FilePath: /server-egg/app/io/middleware/auth.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-09-23 11:33:44
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2022-10-25 15:04:54
+ * @FilePath     : /server-egg/app/io/middleware/auth.js
+ * @Description  : filename
+ * 
+ * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
  */
 const PREFIX = 'room';
 const SET_ROOMS = new Set(['wtf'])
 module.exports = () => {
     return async (ctx, next) => {
         let { socket, app, helper, logger } = ctx
+        /**
+         * 区分房间
+         */
+        // let res = await app.mysql.select(app.config.databaseName.Rooms, {
+        //     columns: ['id'], //查询字段，全部查询则不写，相当于查询*
+        // })
+        // const SET_ROOMS = new Set(res.map(v => v.id))
+
         const id = socket.id;
         const namespace = app.io.of('/')
         const query = socket.handshake.query;
