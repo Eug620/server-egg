@@ -4,7 +4,7 @@
  * @LastEditTime: 2022-08-27 16:29:18
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
- * @FilePath     : /egg-example/app/middleware/requier.js
+ * @FilePath     : /server-egg/app/middleware/requier.js
  */
 //参数校验、参数过滤中间件
 const validateConfig = require('../validateConfig')

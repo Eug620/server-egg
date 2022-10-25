@@ -26,6 +26,7 @@ module.exports = app => {
   // 参数校验
   // router.get('/user/userList', controller.user.userList);
   require('./router/user')(app);
+  require('./router/image')(app);
   require('./router/article')(app);
   require('./router/comment')(app);
   require('./router/route')(app);

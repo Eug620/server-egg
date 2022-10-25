@@ -27,6 +27,7 @@ module.exports = appInfo => {
     databaseName: {
       routes: 'routes', // 路由表
       user: 'user', // 用户表
+      image: 'image', // 图片表
       article: 'article', // 文章表
       comment: 'comment', //
       Article_Comment: 'Article_Comment', // 文章评论表

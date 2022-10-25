@@ -7,27 +7,13 @@
  * @FilePath     : /server-egg/app/validateConfig/index.js
  */
 'use strict';
-const userValidate = require('./user')
-const articleValidate = require('./article')
-const routeValidate = require('./route')
-const commentValidate = require('./comment')
-const rooms = require('./rooms')
 //参数校验数据
 module.exports = {
     // 对应路由的/User/userList的（User）
-    user: {
-        ...userValidate
-    },
-    article: {
-        ...articleValidate
-    },
-    route:{
-        ...routeValidate
-    },
-    comment:{
-        ...commentValidate
-    },
-    rooms: {
-        ...rooms
-    }
+    user: require('./user'),
+    article: require('./article'),
+    route: require('./route'),
+    comment: require('./comment'),
+    rooms: require('./rooms'),
+    image: require('./image')
 }
