@@ -22,7 +22,9 @@ module.exports = app => {
               if (!target) return;
               const { name } = await app.mysql.get(app.config.databaseName.user, { id: client })      
               const msg = ctx.helper.parseMsg('confabulate', payload, { client, target, clientName: name });
-              nsp.emit(target, msg);
+              nsp.adapter.clients([target], (err, clients) => {
+                nsp.to(target).emit(target, msg);
+            });
             } catch (error) {
               app.logger.error(error);
             }

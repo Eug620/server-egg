@@ -9,17 +9,17 @@
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
  */
 const PREFIX = 'room';
-const SET_ROOMS = new Set(['wtf'])
+// const SET_ROOMS = new Set(['wtf'])
 module.exports = () => {
     return async (ctx, next) => {
         let { socket, app, helper, logger } = ctx
         /**
          * 区分房间
          */
-        // let res = await app.mysql.select(app.config.databaseName.Rooms, {
-        //     columns: ['id'], //查询字段，全部查询则不写，相当于查询*
-        // })
-        // const SET_ROOMS = new Set(res.map(v => v.id))
+        let res = await app.mysql.select(app.config.databaseName.Rooms, {
+            columns: ['id'], //查询字段，全部查询则不写，相当于查询*
+        })
+        const SET_ROOMS = new Set(res.map(v => v.id))
 
         const id = socket.id;
         const namespace = app.io.of('/')
@@ -27,7 +27,8 @@ module.exports = () => {
 
         // 用户信息
         const { room } = query;
-        const rooms = [room];
+        // const rooms = [room];
+        const rooms = room.split(',');
         logger.debug('#user_info', id, room, id);
 
         const tick = (id, msg) => {
@@ -41,35 +42,38 @@ module.exports = () => {
             //     logger.error(err);
             // });
         };
+        rooms.forEach(room => {
+            const hasRoom = SET_ROOMS.has(room)
+            logger.debug('#has_exist', hasRoom);
 
-        const hasRoom = SET_ROOMS.has(room)
-        logger.debug('#has_exist', hasRoom);
+            if (!hasRoom) {
+                tick(id, {
+                    type: 'deleted',
+                    message: 'deleted, room has been deleted.',
+                });
+                return;
+            }
 
+            // 用户加入
+            logger.debug('#join', room);
+            socket.join(room);
 
-        // 用户加入
-        logger.debug('#join', room);
-        socket.join(room);
-
-        // 在线列表
-        namespace.adapter.clients(rooms, (err, clients) => {
-            logger.debug('#online_join', clients);
-
-            // 更新在线用户列表
-            namespace.to(room).emit('online', {
-                clients,
-                action: 'join',
-                target: 'participator',
-                message: `User(${id}) joined.`,
+            // 在线列表
+            namespace.adapter.clients(rooms, async (err, clients) => {
+                logger.debug('#online_join', clients);
+                const { name } = await app.mysql.get(app.config.databaseName.user, { id })     
+                // 更新在线用户列表
+                namespace.to(room).emit('online', {
+                    clients,
+                    room,
+                    clients,
+                    action: 'join',
+                    target: 'participator',
+                    message: `${name} 已上线`,
+                });
             });
-        });
-
-        if (!hasRoom) {
-            tick(id, {
-                type: 'deleted',
-                message: 'deleted, room has been deleted.',
-            });
-            return;
-        }
+        })
+      
 
         await next();
 
@@ -87,13 +91,20 @@ module.exports = () => {
             //   clientsDetail[client] = _query;
             // });
 
-            // 更新在线用户列表
-            namespace.to(room).emit('online', {
-                clients,
-                action: 'leave',
-                target: 'participator',
-                message: `User(${id}) leaved.`,
-            });
+            rooms.forEach(async room => {
+                const { name } = await app.mysql.get(app.config.databaseName.user, { id })     
+
+                // 更新在线用户列表
+                namespace.to(room).emit('online', {
+                    clients,
+                    room,
+                    clients,
+                    action: 'leave',
+                    target: 'participator',
+                    message: `${name} 已下线`,
+                });
+            })
+
         });
     };
 };
