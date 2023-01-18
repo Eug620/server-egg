@@ -83,6 +83,20 @@ class UserService extends Service {
             `)
 
             await this.app.mysql.delete(this.app.config.databaseName.Rooms, { id })
+            const namespace = this.ctx.app.io.of('/')
+            namespace.adapter.clients([id], async (err, clients) => {
+                const { name } = await this.app.mysql.get(this.app.config.databaseName.user, { id: decode.id })     
+                // 更新在线用户列表
+                namespace.to(id).emit('refresh', {
+                    clients,
+                    room:id,
+                    clients,
+                    action: 'join',
+                    target: 'participator',
+                    message: `${name}, 该房间已失效`,
+                    user: decode.id,
+                });
+            });
             return {
                 code: 200,
                 message: '删除成功'
@@ -119,6 +133,20 @@ class UserService extends Service {
                 }
             } else {
                 await this.app.mysql.insert(this.app.config.databaseName.Rooms_Staff, { id, room_id, user_id: decode.id })
+                const namespace = this.ctx.app.io.of('/')
+                namespace.adapter.clients([room_id], async (err, clients) => {
+                    const { name } = await this.app.mysql.get(this.app.config.databaseName.user, { id: decode.id })     
+                    // 更新在线用户列表
+                    namespace.to(room_id).emit('refresh', {
+                        clients,
+                        room:room_id,
+                        clients,
+                        action: 'join',
+                        target: 'participator',
+                        message: `${name} 已加入房间`,
+                        user: decode.id,
+                    });
+                });
                 return {
                     code: 200,
                     message: '加入成功'
@@ -146,6 +174,20 @@ class UserService extends Service {
             })
             if (hasUser) {
                 await this.app.mysql.delete(this.app.config.databaseName.Rooms_Staff, { user_id, room_id })
+                const namespace = this.ctx.app.io.of('/')
+                namespace.adapter.clients([room_id], async (err, clients) => {
+                    const { name } = await this.app.mysql.get(this.app.config.databaseName.user, { id: user_id })     
+                    // 更新在线用户列表
+                    namespace.to(room_id).emit('refresh', {
+                        clients,
+                        room:room_id,
+                        clients,
+                        action: 'join',
+                        target: 'participator',
+                        message: `${name} 已移出房间`,
+                        user: user_id,
+                    });
+                });
                 return {
                     code: 200,
                     message: '删除成功'
