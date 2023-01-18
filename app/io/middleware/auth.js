@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-23 11:33:44
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-10-25 15:04:54
+ * @LastEditTime : 2023-01-18 20:26:33
  * @FilePath     : /server-egg/app/io/middleware/auth.js
  * @Description  : filename
  * 
@@ -70,6 +70,7 @@ module.exports = () => {
                     action: 'join',
                     target: 'participator',
                     message: `${name} 已上线`,
+                    user: id,
                 });
             });
         })
@@ -102,6 +103,7 @@ module.exports = () => {
                     action: 'leave',
                     target: 'participator',
                     message: `${name} 已下线`,
+                    user: id,
                 });
             })
 
