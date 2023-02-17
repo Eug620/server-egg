@@ -15,7 +15,7 @@ class UserService extends Service {
    */
   async all() {
     const result = await this.app.mysql.select(this.app.config.databaseName.user, {
-      columns: ['id', 'email', 'create_time', 'update_time', 'name'], //查询字段，全部查询则不写，相当于查询*
+      columns: ['id', 'email', 'create_time', 'update_time', 'name', 'avatar'], //查询字段，全部查询则不写，相当于查询*
     })
     return result;
   }
@@ -26,11 +26,22 @@ class UserService extends Service {
    * email require
    */
   async add() {
-    const { name, password, email } = this.ctx.params
+    const { name, password, email, avatar } = this.ctx.params
     const create_time = Date.parse(new Date())
     const update_time = Date.parse(new Date())
     const id = UUID.v4()
-    await this.app.mysql.insert(this.app.config.databaseName.user, { id, name, password, email, create_time, update_time })
+    let result = await this.app.mysql.get(this.app.config.databaseName.user, {
+      name
+    })
+    console.log(result);
+    if (result) {
+      return Promise.reject({
+        status: 204,
+        message: 'The username already exists'
+      })
+    } else {
+      await this.app.mysql.insert(this.app.config.databaseName.user, { id, name, password, email, create_time, update_time, avatar })
+    }
   }
 
   /**
@@ -40,7 +51,7 @@ class UserService extends Service {
    * email
    */
   async update() {
-    const { name, password, email, decode } = this.ctx.params
+    const { name, password, email, decode, avatar } = this.ctx.params
     const update_time = Date.parse(new Date())
     const options = {
       where: {
@@ -49,9 +60,10 @@ class UserService extends Service {
     }
 
     const userInfo = { update_time }
-    if (name !== void 0) userInfo['name'] = name
+    // if (name !== void 0) userInfo['name'] = name
     if (password !== void 0) userInfo['password'] = password
     if (email !== void 0) userInfo['email'] = email
+    if (avatar !== void 0) userInfo['avatar'] = avatar
     await this.app.mysql.update(this.app.config.databaseName.user, userInfo, options)
   }
 
@@ -72,7 +84,7 @@ class UserService extends Service {
     const current_page = ((isNaN(page) || page < 1) ? 0 : page - 1) * current_size
     const SQL_STRING = `
       SELECT 
-      id, email, create_time, update_time, name
+      id, email, create_time, update_time, name, avatar
       FROM user 
       ORDER BY update_time DESC  
       LIMIT ${current_page}, ${current_size}

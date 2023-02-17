@@ -27,8 +27,12 @@ class CommentService extends Service {
         //     `
 
         const userList = await this.app.mysql.select(this.app.config.databaseName.user)
-        const userMap = new Map()
-        userList.forEach(v => userMap.set(v.id, v.name))
+        const userMap = new Map() // 用户名称map
+        const userAvatarMap = new Map() // 用户头像map
+        userList.forEach(v => {
+            userMap.set(v.id, v.name)
+            userAvatarMap.set(v.id, v.avatar)
+        })
         const commentList = await this.app.mysql.select(this.app.config.databaseName.Article_Comment, {
             where: {
                 article_id: article_id
@@ -43,7 +47,9 @@ class CommentService extends Service {
 
         commentList.forEach(item => {
             item['operator_name'] = userMap.get(item['operator'])
+            item['operator_avatar'] = userAvatarMap.get(item['operator'])
             item['comment_name'] = userMap.get(item['tid'])
+            item['comment_avatar'] = userAvatarMap.get(item['tid'])
             if (item['article_id'] === article_id && item['pid'] === article_id) {
                 item['children'] = []
                 OuterLayer.push(item)
