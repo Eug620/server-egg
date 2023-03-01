@@ -226,7 +226,8 @@ class UserService extends Service {
             const RoomSubscriber = `
                 select 
                     ${user}.id,
-                    ${user}.name
+                    ${user}.name,
+                    ${user}.avatar
                 from ${Rooms_Staff}
                 LEFT JOIN ${user} on ${user}.id = ${Rooms_Staff}.user_id
                 where ${Rooms_Staff}.room_id = '${element.id}'
@@ -235,6 +236,21 @@ class UserService extends Service {
             element['subscriber'] = list
         }
         return result
+    }
+    async records() {
+        const { decode, room_id } = this.ctx.params
+        const hasRoom = await this.app.mysql.get(this.app.config.databaseName.Rooms_Staff, {
+            room_id,
+            user_id: decode.id
+        })
+        if (!hasRoom) return { code: 204, message: '没有权限', result: null }
+        const result = await this.app.mysql.select(this.app.config.databaseName.Rooms_Record, {
+            // columns: ['id', 'name', 'describe', 'author'], //查询字段，全部查询则不写，相当于查询*
+            where:  {
+                target: room_id
+            }
+        })
+        return { code: 200, message: '查询成功', result }
     }
 }
 

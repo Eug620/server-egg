@@ -1,10 +1,12 @@
 /*
- * @Author: eug yyh3531@163.com
- * @Date: 2022-09-18 02:37:26
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-09-18 02:48:43
- * @FilePath: /server-egg/app/router/room.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-09-23 11:33:44
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-03-01 15:50:13
+ * @FilePath     : /server-egg/app/router/rooms.js
+ * @Description  : filename
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
 'use strict';
 /**
@@ -20,8 +22,12 @@ module.exports = app => {
     router.post('/rooms/delete', jwt, controller.rooms.delete)
     router.post('/rooms/join', jwt, controller.rooms.join)
 
+    // 
     router.post('/rooms/deleteUser', jwt, controller.rooms.deleteUser)
     router.get('/rooms/ownRoom', jwt, controller.rooms.ownRoom)
+
+    // 聊天记录
+    router.get('/rooms/records', jwt, controller.rooms.records)
 };
 
 /**

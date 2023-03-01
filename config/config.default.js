@@ -33,6 +33,7 @@ module.exports = appInfo => {
       Article_Comment: 'Article_Comment', // 文章评论表
       Rooms: 'Rooms', // 房间表
       Rooms_Staff: 'Rooms_Staff',// 房间成员表
+      Rooms_Record: 'Rooms_Record',
       User_Friend: 'User_Friend',// 用户好友表
     },
     // 状态码

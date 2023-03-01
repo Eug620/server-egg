@@ -1,10 +1,12 @@
 /*
- * @Author: eug yyh3531@163.com
- * @Date: 2022-09-18 02:44:11
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-09-18 05:16:23
- * @FilePath: /server-egg/app/controller/rooms.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-09-23 11:33:44
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-03-01 16:27:38
+ * @FilePath     : /server-egg/app/controller/rooms.js
+ * @Description  : filename
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
 'use strict';
 
@@ -51,6 +53,11 @@ class RoomsController extends Controller {
         this.ctx.returnBody(200, '查询成功', result)
     }
 
+    // 聊天记录
+    async records() {
+        const { code, message, result } = await this.ctx.service.rooms.records();
+        this.ctx.returnBody(code, message, result)
+    }
 }
 
 module.exports = RoomsController;
