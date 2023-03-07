@@ -11,11 +11,11 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-    const { router, controller } = app;
+    const { router, controller, jwt } = app;
     router.get('/article/all', controller.article.all)
     router.get('/article/index', controller.article.index)
     router.get('/article/detail', controller.article.detail)
-    router.post('/article/add', controller.article.add)
-    router.post('/article/update', controller.article.update)
-    router.post('/article/delete', controller.article.delete)
+    router.post('/article/add', jwt, controller.article.add)
+    router.post('/article/update', jwt, controller.article.update)
+    router.post('/article/delete', jwt, controller.article.delete)
 };

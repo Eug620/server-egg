@@ -1,18 +1,20 @@
 /*
- * @Author: eug yyh3531@163.com
- * @Date: 2022-08-28 12:38:53
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-28 12:40:00
- * @FilePath: /server-egg/app/router/comment.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-09-23 11:33:44
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-03-07 14:00:46
+ * @FilePath     : /server-egg/app/router/comment.js
+ * @Description  : filename
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
 'use strict';
 /**
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-    const { router, controller } = app;
+    const { router, controller, jwt } = app;
     router.get('/comment/all', controller.comment.all)
-    router.post('/comment/add', controller.comment.add)
-    router.post('/comment/delete', controller.comment.delete)
+    router.post('/comment/add', jwt, controller.comment.add)
+    router.post('/comment/delete', jwt, controller.comment.delete)
 };

@@ -64,6 +64,32 @@ class UserService extends Service {
         }
     }
 
+    // 通过房间id删除所有成员关系
+    async deleteRoomsStaffByRoomID (room_id) {
+        // await this.app.mysql.query(`
+        //     delete
+        //     from Rooms_Staff
+        //     where room_id in (
+        //         select room_id as id from Rooms where room_id = '${id}'
+        //     )
+        // `)
+        await this.app.mysql.delete(this.app.config.databaseName.Rooms_Staff, { room_id })
+    }
+
+    // 通过房间id删除所有聊天记录
+    async deleteRoomsRecordByRoomID (target) {
+        await this.app.mysql.delete(this.app.config.databaseName.Rooms_Record, { target })
+    }
+
+    // 通过用户id删除房间内成员关系
+    async deleteRoomsStaffByUserID (user_id) {
+        await this.app.mysql.delete(this.app.config.databaseName.Rooms_Staff, { user_id })
+    }
+
+    // 通过用户id删除用户聊天记录
+    async deleteRoomsRecordByUserID (id) {
+        await this.app.mysql.delete(this.app.config.databaseName.Rooms_Record, { id })
+    }
     /**
      * id require
      */
@@ -74,15 +100,13 @@ class UserService extends Service {
             author: decode.id
         })
         if (result) {
-            await this.app.mysql.query(`
-                delete
-                from Rooms_Staff
-                where room_id in (
-                    select room_id as id from Rooms where room_id = '${id}'
-                )
-            `)
-
+            // 删除房内所有成员
+            await this.ctx.service.rooms.deleteRoomsStaffByRoomID(id)
+            // 删除聊天记录
+            await this.ctx.service.rooms.deleteRoomsRecordByRoomID(id)
+            // 删除房间
             await this.app.mysql.delete(this.app.config.databaseName.Rooms, { id })
+            // 通知房间已删除
             const namespace = this.ctx.app.io.of('/')
             namespace.adapter.clients([id], async (err, clients) => {
                 const { name } = await this.app.mysql.get(this.app.config.databaseName.user, { id: decode.id })     

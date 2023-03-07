@@ -200,6 +200,8 @@ class ArticleService extends Service {
 
     // 全部通过，可以删除
     await this.app.mysql.delete(this.app.config.databaseName.article, { id })
+    // 删除对应的评论
+    await this.ctx.service.comment.deleteCommenByArticleID(id)
     return {
       code: 200,
       message: '删除文章成功'

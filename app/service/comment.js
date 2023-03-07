@@ -124,5 +124,15 @@ class CommentService extends Service {
             message: '删除评论成功'
         }
     }
+
+    // 通过文章id删除评论
+    async deleteCommenByArticleID(article_id) {
+        await this.app.mysql.delete(this.app.config.databaseName.Article_Comment, { article_id })
+    }
+
+    // 通过用户id删除评论
+    async deleteCommenByUserID(operator) {
+        await this.app.mysql.delete(this.app.config.databaseName.Article_Comment, { operator })
+    }
 }
 module.exports = CommentService;
