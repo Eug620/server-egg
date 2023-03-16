@@ -231,7 +231,7 @@ class UserService extends Service {
     }
     async ownRoom() {
         const { decode } = this.ctx.params
-        const { Rooms, Rooms_Staff, user } = this.app.config.databaseName
+        const { Rooms, Rooms_Staff, User } = this.app.config.databaseName
         const SQL_STRING = `
             select 
                 ${Rooms}.id,
@@ -249,11 +249,11 @@ class UserService extends Service {
             const element = result[index];
             const RoomSubscriber = `
                 select 
-                    ${user}.id,
-                    ${user}.name,
-                    ${user}.avatar
+                    ${User}.id,
+                    ${User}.name,
+                    ${User}.avatar
                 from ${Rooms_Staff}
-                LEFT JOIN ${user} on ${user}.id = ${Rooms_Staff}.user_id
+                LEFT JOIN ${User} on ${User}.id = ${Rooms_Staff}.user_id
                 where ${Rooms_Staff}.room_id = '${element.id}'
             `
             let list = await this.app.mysql.query(RoomSubscriber)
