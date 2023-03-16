@@ -1,11 +1,3 @@
-/* 
- * @Author       : Eug
- * @Date         : 2022-03-08 15:34:38
- * @LastEditTime: 2022-08-28 15:10:54
- * @LastEditors: eug yyh3531@163.com
- * @Descripttion : Descripttion
- * @FilePath     : /server-egg/app/service/article.js
- */
 const Service = require('egg').Service;
 const UUID = require('uuid')
 
@@ -83,7 +75,7 @@ class ArticleService extends Service {
         id: id
       }
     }
-    await this.app.mysql.update(this.app.config.databaseName.article,{
+    await this.app.mysql.update(this.app.config.databaseName.Article,{
       page_views: result.page_views + 1
     }, options)
     return result || {};
@@ -91,7 +83,7 @@ class ArticleService extends Service {
 
   async add () {
     const { title, describe, content, decode } = this.ctx.params
-    const user_list = await this.app.mysql.select(this.app.config.databaseName.user, {
+    const user_list = await this.app.mysql.select(this.app.config.databaseName.User, {
       where: {
         id: decode.id
       }
@@ -127,7 +119,7 @@ class ArticleService extends Service {
           id
         }
       }
-      await this.app.mysql.update(this.app.config.databaseName.article, { title, content, describe }, options)
+      await this.app.mysql.update(this.app.config.databaseName.Article, { title, content, describe }, options)
       return {
         code: 200,
         message: '新增成功'
@@ -142,7 +134,7 @@ class ArticleService extends Service {
   async update () {
     const { title, describe, content, id, decode } = this.ctx.params
     // 判断是否为当前所属用户的文章
-    const article_detail = await this.app.mysql.select(this.app.config.databaseName.article, {
+    const article_detail = await this.app.mysql.select(this.app.config.databaseName.Article, {
       where: {
         id: id
       }
@@ -168,7 +160,7 @@ class ArticleService extends Service {
         id
       }
     }
-    await this.app.mysql.update(this.app.config.databaseName.article, { title, content, describe }, options)
+    await this.app.mysql.update(this.app.config.databaseName.Article, { title, content, describe }, options)
     return {
       code: 200,
       message: '更新文章成功'
@@ -178,7 +170,7 @@ class ArticleService extends Service {
   async delete () {
     const { id, decode } = this.ctx.params
     // 判断是否为当前所属用户的文章
-    const article_detail = await this.app.mysql.select(this.app.config.databaseName.article, {
+    const article_detail = await this.app.mysql.select(this.app.config.databaseName.Article, {
       where: {
         id: id
       }
@@ -199,7 +191,7 @@ class ArticleService extends Service {
     }
 
     // 全部通过，可以删除
-    await this.app.mysql.delete(this.app.config.databaseName.article, { id })
+    await this.app.mysql.delete(this.app.config.databaseName.Article, { id })
     // 删除对应的评论
     await this.ctx.service.comment.deleteCommenByArticleID(id)
     return {

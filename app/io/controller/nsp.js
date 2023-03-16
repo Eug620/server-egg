@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-17 00:54:36
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-01 16:27:43
+ * @LastEditTime : 2023-03-16 17:59:46
  * @FilePath     : /server-egg/app/io/controller/nsp.js
  * @Description  : io controller
  * 
@@ -20,7 +20,7 @@ module.exports = app => {
       try {
         const { target, payload } = message;
         if (!target) return;
-        const { name, avatar } = await app.mysql.get(app.config.databaseName.user, { id: client })
+        const { name, avatar } = await app.mysql.get(app.config.databaseName.User, { id: client })
         const msg = ctx.helper.parseMsg('confabulate', payload, { client, target, clientName: name, clientAvatar: avatar });
         // 聊天记录
         await this.app.mysql.insert(this.app.config.databaseName.Rooms_Record, {

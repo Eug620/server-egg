@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-23 11:33:44
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-18 20:26:33
+ * @LastEditTime : 2023-03-16 18:01:53
  * @FilePath     : /server-egg/app/io/middleware/auth.js
  * @Description  : filename
  * 
@@ -61,7 +61,7 @@ module.exports = () => {
             // 在线列表
             namespace.adapter.clients(rooms, async (err, clients) => {
                 logger.debug('#online_join', clients);
-                const { name } = await app.mysql.get(app.config.databaseName.user, { id })     
+                const { name } = await app.mysql.get(app.config.databaseName.User, { id })     
                 // 更新在线用户列表
                 namespace.to(room).emit('online', {
                     clients,
@@ -93,7 +93,7 @@ module.exports = () => {
             // });
 
             rooms.forEach(async room => {
-                const { name } = await app.mysql.get(app.config.databaseName.user, { id })     
+                const { name } = await app.mysql.get(app.config.databaseName.User, { id })     
 
                 // 更新在线用户列表
                 namespace.to(room).emit('online', {

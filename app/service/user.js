@@ -14,7 +14,7 @@ class UserService extends Service {
    * @returns user list all
    */
   async all() {
-    const result = await this.app.mysql.select(this.app.config.databaseName.user, {
+    const result = await this.app.mysql.select(this.app.config.databaseName.User, {
       columns: ['id', 'email', 'create_time', 'update_time', 'name', 'avatar'], //查询字段，全部查询则不写，相当于查询*
     })
     return result;
@@ -30,7 +30,7 @@ class UserService extends Service {
     const create_time = Date.parse(new Date())
     const update_time = Date.parse(new Date())
     const id = UUID.v4()
-    let result = await this.app.mysql.get(this.app.config.databaseName.user, {
+    let result = await this.app.mysql.get(this.app.config.databaseName.User, {
       name
     })
     console.log(result);
@@ -40,7 +40,7 @@ class UserService extends Service {
         message: 'The username already exists'
       })
     } else {
-      await this.app.mysql.insert(this.app.config.databaseName.user, { id, name, password, email, create_time, update_time, avatar })
+      await this.app.mysql.insert(this.app.config.databaseName.User, { id, name, password, email, create_time, update_time, avatar })
     }
   }
 
@@ -64,7 +64,7 @@ class UserService extends Service {
     if (password !== void 0) userInfo['password'] = password
     if (email !== void 0) userInfo['email'] = email
     if (avatar !== void 0) userInfo['avatar'] = avatar
-    await this.app.mysql.update(this.app.config.databaseName.user, userInfo, options)
+    await this.app.mysql.update(this.app.config.databaseName.User, userInfo, options)
   }
 
   /**
@@ -72,7 +72,7 @@ class UserService extends Service {
    */
   async delete() {
     const { id } = this.ctx.params
-    await this.app.mysql.delete(this.app.config.databaseName.user, { id })
+    await this.app.mysql.delete(this.app.config.databaseName.User, { id })
   }
 
   /**
@@ -96,7 +96,7 @@ class UserService extends Service {
   async login() {
     const { app } = this;
     const { name, password } = this.ctx.params
-    let result = await this.app.mysql.get(this.app.config.databaseName.user, {
+    let result = await this.app.mysql.get(this.app.config.databaseName.User, {
       name,
       password
     })
@@ -116,7 +116,7 @@ class UserService extends Service {
         token
       };
     } else {
-      let hasUser = await this.app.mysql.get(this.app.config.databaseName.user, { name })
+      let hasUser = await this.app.mysql.get(this.app.config.databaseName.User, { name })
       if (hasUser) {
         return Promise.reject({
           status: 204,

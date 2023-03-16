@@ -21,12 +21,12 @@ class CommentService extends Service {
         //         name, 
         //         ${this.app.config.databaseName.Article_Comment}.create_time as create_time
         //         from ${this.app.config.databaseName.Article_Comment}
-        //         LEFT JOIN ${this.app.config.databaseName.user} ON ${this.app.config.databaseName.user}.id = ${this.app.config.databaseName.Article_Comment}.operator
+        //         LEFT JOIN ${this.app.config.databaseName.User} ON ${this.app.config.databaseName.User}.id = ${this.app.config.databaseName.Article_Comment}.operator
         //         where  article_id = '${article_id}' and pid = '${article_id}'
         //         order by  create_time DESC
         //     `
 
-        const userList = await this.app.mysql.select(this.app.config.databaseName.user)
+        const userList = await this.app.mysql.select(this.app.config.databaseName.User)
         const userMap = new Map() // 用户名称map
         const userAvatarMap = new Map() // 用户头像map
         userList.forEach(v => {
@@ -68,7 +68,7 @@ class CommentService extends Service {
         const timer = Date.parse(new Date())
         const id = UUID.v4()
         const { article_id, pid, content, tid, decode } = this.ctx.params
-        const articleInfo = await this.app.mysql.get(this.app.config.databaseName.article, { id: article_id })
+        const articleInfo = await this.app.mysql.get(this.app.config.databaseName.Article, { id: article_id })
         if (!articleInfo) {
             return Promise.reject({
                 status: 422,

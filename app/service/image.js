@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-10-25 15:19:42
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-10-25 15:43:01
+ * @LastEditTime : 2023-03-16 17:58:43
  * @FilePath     : /server-egg/app/service/image.js
  * @Description  : filename
  * 
@@ -15,7 +15,7 @@ const UUID = require('uuid')
 class UserService extends Service {
 
     async all() {
-        const result = await this.app.mysql.select(this.app.config.databaseName.image, {
+        const result = await this.app.mysql.select(this.app.config.databaseName.Image, {
             columns: ['id', 'url', 'create_time', 'update_time'], //查询字段，全部查询则不写，相当于查询*
             orders: [['update_time', 'DESC']]
         })
@@ -28,14 +28,14 @@ class UserService extends Service {
         const create_time = Date.parse(new Date())
         const update_time = Date.parse(new Date())
         const id = UUID.v4()
-        let result = await this.app.mysql.get(this.app.config.databaseName.image, { url })
+        let result = await this.app.mysql.get(this.app.config.databaseName.Image, { url })
         if (result) {
             return {
                 code: 200,
                 message: '数据已经存在'
             }
         } else {
-            await this.app.mysql.insert(this.app.config.databaseName.image, { id, url, create_time, update_time })
+            await this.app.mysql.insert(this.app.config.databaseName.Image, { id, url, create_time, update_time })
             return {
                 code: 200,
                 message: '新增成功'
@@ -54,12 +54,12 @@ class UserService extends Service {
         }
 
         const imageInfo = { update_time, url }
-        await this.app.mysql.update(this.app.config.databaseName.image, imageInfo, options)
+        await this.app.mysql.update(this.app.config.databaseName.Image, imageInfo, options)
     }
 
     async delete() {
         const { id } = this.ctx.params
-        await this.app.mysql.delete(this.app.config.databaseName.image, { id })
+        await this.app.mysql.delete(this.app.config.databaseName.Image, { id })
     }
 
 

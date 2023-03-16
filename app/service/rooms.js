@@ -109,7 +109,7 @@ class UserService extends Service {
             // 通知房间已删除
             const namespace = this.ctx.app.io.of('/')
             namespace.adapter.clients([id], async (err, clients) => {
-                const { name } = await this.app.mysql.get(this.app.config.databaseName.user, { id: decode.id })     
+                const { name } = await this.app.mysql.get(this.app.config.databaseName.User, { id: decode.id })     
                 // 更新在线用户列表
                 namespace.to(id).emit('refresh', {
                     clients,
@@ -159,7 +159,7 @@ class UserService extends Service {
                 await this.app.mysql.insert(this.app.config.databaseName.Rooms_Staff, { id, room_id, user_id: decode.id })
                 const namespace = this.ctx.app.io.of('/')
                 namespace.adapter.clients([room_id], async (err, clients) => {
-                    const { name } = await this.app.mysql.get(this.app.config.databaseName.user, { id: decode.id })     
+                    const { name } = await this.app.mysql.get(this.app.config.databaseName.User, { id: decode.id })     
                     // 更新在线用户列表
                     namespace.to(room_id).emit('refresh', {
                         clients,
@@ -200,7 +200,7 @@ class UserService extends Service {
                 await this.app.mysql.delete(this.app.config.databaseName.Rooms_Staff, { user_id, room_id })
                 const namespace = this.ctx.app.io.of('/')
                 namespace.adapter.clients([room_id], async (err, clients) => {
-                    const { name } = await this.app.mysql.get(this.app.config.databaseName.user, { id: user_id })     
+                    const { name } = await this.app.mysql.get(this.app.config.databaseName.User, { id: user_id })     
                     // 更新在线用户列表
                     namespace.to(room_id).emit('refresh', {
                         clients,

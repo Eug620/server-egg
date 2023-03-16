@@ -25,11 +25,10 @@ module.exports = appInfo => {
   const userConfig = {
     // 数据库表名
     databaseName: {
-      routes: 'routes', // 路由表
-      user: 'user', // 用户表
-      image: 'image', // 图片表
-      article: 'article', // 文章表
-      comment: 'comment', //
+      Routes: 'routes', // 路由表
+      User: 'user', // 用户表
+      Image: 'image', // 图片表
+      Article: 'article', // 文章表
       Article_Comment: 'Article_Comment', // 文章评论表
       Rooms: 'Rooms', // 房间表
       Rooms_Staff: 'Rooms_Staff',// 房间成员表
@@ -53,8 +52,8 @@ module.exports = appInfo => {
       504: '网关超时',
       505: 'HTTP版本不受支持'
     },
-    // token 过期时间
-    expiresIn: (60 * 60 * 24) + 's'
+    // token 过期时间 / 3 Day
+    expiresIn: (60 * 60 * 24 * 3) + 's'
   };
 
   // TODO
