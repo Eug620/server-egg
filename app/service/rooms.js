@@ -230,6 +230,7 @@ class UserService extends Service {
         }
     }
     async ownRoom() {
+        const { decode } = this.ctx.params
         return this.ctx.service.rooms.getOwnRoomByID(decode.id)
     }
 
