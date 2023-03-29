@@ -1,8 +1,8 @@
 <div class='Home-header'>
   <div class="container Home-header-container">
-    {% for item, value in list %}
-    <a href="#{{item}}">
-      <button class='outline headerButton' onClick="handleClick(this)">{{item}}</button>
+    {% for item in list %}
+    <a href="#{{item.path}}">
+      <button class='outline headerButton' onClick="handleClick(this)">{{item.path}}</button>
     </a>
     {% endfor %}
   </div>

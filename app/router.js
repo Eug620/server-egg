@@ -31,4 +31,5 @@ module.exports = app => {
   require('./router/comment')(app);
   require('./router/route')(app);
   require('./router/rooms')(app);
+  require('./router/minio')(app);
 };

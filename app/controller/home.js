@@ -1,8 +1,8 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 14:50:53
- * @LastEditTime : 2022-03-11 14:23:49
- * @LastEditors  : Eug
+ * @LastEditTime : 2023-03-29 18:06:10
+ * @LastEditors  : eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/controller/home.js
  */
@@ -12,13 +12,8 @@ const Controller = require('egg').Controller;
 
 class HomeController extends Controller {
   async index() {
-    const { ctx, app: { controller } } = this;
-    const renderList = {}
-    for (const key in controller) {
-      renderList[key] = Object.keys(controller[key]).map(v => `/${key}/${v}`)
-    }
-    await ctx.render('index.njk', {
-      list: renderList
+    await this.ctx.render('index.njk', {
+      list: this.app.router.stack
     })
   }
 }

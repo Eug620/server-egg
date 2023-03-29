@@ -15,5 +15,6 @@ module.exports = {
     route: require('./route'),
     comment: require('./comment'),
     rooms: require('./rooms'),
-    image: require('./image')
+    image: require('./image'),
+    minio: require('./minio'),
 }

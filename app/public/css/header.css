@@ -1,12 +1,17 @@
-.Home-header{
+.Home-header {
   box-shadow: #ccc 0 0 10px 0;
   position: fixed;
-  width: 100vw;
+  left: 0;
+  width: 18vw;
   background-color: #fff;
-  height: 60px;
-
+  height: 100vh;
+  overflow-y: scroll;
+  display: flex;
+  left: 0;
 }
 
-.Home-header-container{
-  /* background-color: #ccc; */
+
+.Home-header-container {
+  display: flex;
+  flex-direction: column;
 }
