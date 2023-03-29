@@ -1,7 +1,9 @@
 'use strict';
 
 const I18n = require('i18n');
-let id = 0
+var jwt = require('jsonwebtoken');
+const UUID = require('uuid')
+
 I18n.configure({
   locales: ['zh-CN'],
   defaultLocale: 'zh-CN',
@@ -176,8 +178,15 @@ module.exports = appInfo => {
       },
     },
     generateId: req => { //自定义 socket.id 生成函数
-      console.log('generateId:', req._query.userId);
-      return req._query.userId // custom id must be unique
+      try {
+        // 解码token中的用户ID
+        const { id } = jwt.verify(req._query.token, config.jwt.secret)
+        console.log('generateId:', id);
+        return id
+      } catch (error) {
+        // 解析失败 暂时用随机ID -> auth 会再次验证ID可靠性
+        return UUID.v4()
+      }
     },
   };
 

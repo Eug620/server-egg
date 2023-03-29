@@ -230,7 +230,11 @@ class UserService extends Service {
         }
     }
     async ownRoom() {
-        const { decode } = this.ctx.params
+        return this.ctx.service.rooms.getOwnRoomByID(decode.id)
+    }
+
+    // 通过用户id获取用户所有房间信息
+    async getOwnRoomByID(id) {
         const { Rooms, Rooms_Staff, User } = this.app.config.databaseName
         const SQL_STRING = `
             select 
@@ -240,7 +244,7 @@ class UserService extends Service {
                 ${Rooms}.author
             from ${Rooms_Staff}
             LEFT JOIN  ${Rooms} on ${Rooms_Staff}.room_id = ${Rooms}.id
-            where user_id = '${decode.id}'
+            where user_id = '${id}'
         `
         const result = await this.app.mysql.query(SQL_STRING)
 

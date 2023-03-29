@@ -30,9 +30,7 @@ class UserService extends Service {
     const create_time = Date.parse(new Date())
     const update_time = Date.parse(new Date())
     const id = UUID.v4()
-    let result = await this.app.mysql.get(this.app.config.databaseName.User, {
-      name
-    })
+    let result = await this.ctx.service.user.getUserInfo({ name })
     console.log(result);
     if (result) {
       return Promise.reject({
@@ -96,10 +94,7 @@ class UserService extends Service {
   async login() {
     const { app } = this;
     const { name, password } = this.ctx.params
-    let result = await this.app.mysql.get(this.app.config.databaseName.User, {
-      name,
-      password
-    })
+    let result = await this.ctx.service.user.getUserInfo({ name, password})
     if (result) {
       delete result['password']
       //生成 token 的方式
@@ -116,7 +111,7 @@ class UserService extends Service {
         token
       };
     } else {
-      let hasUser = await this.app.mysql.get(this.app.config.databaseName.User, { name })
+      let hasUser = await this.ctx.service.user.getUserInfo({ name })
       if (hasUser) {
         return Promise.reject({
           status: 204,
@@ -129,6 +124,11 @@ class UserService extends Service {
         })
       }
     }
+  }
+
+  // 用户是否存在
+  getUserInfo(opt) {
+    return this.app.mysql.get(this.app.config.databaseName.User, opt)
   }
 }
 

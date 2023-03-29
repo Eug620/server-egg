@@ -2,34 +2,41 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-23 11:33:44
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-16 18:01:53
+ * @LastEditTime : 2023-03-29 11:37:35
  * @FilePath     : /server-egg/app/io/middleware/auth.js
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
  */
-const PREFIX = 'room';
-// const SET_ROOMS = new Set(['wtf'])
 module.exports = () => {
     return async (ctx, next) => {
-        let { socket, app, helper, logger } = ctx
+        let { socket, app, helper, logger, service } = ctx
+
+        // 用户信息
+        const id = socket.id;
+        let hasUser = await service.user.getUserInfo({ id })
+        console.log('用户是否存在:', !!hasUser);
+        // 用户不存在
+        if (!hasUser) return tick(id, {
+            type: 'deleted',
+            message: 'token 错误',
+        })
+
+        // 用户房间列表
+        const OwnRoom = await service.rooms.getOwnRoomByID(id)
+        const rooms = OwnRoom.map(v => v.id)
+        console.log('房间列表:',rooms);
+
+
         /**
-         * 区分房间
+         * 区分房间 - 所有房间
          */
         let res = await app.mysql.select(app.config.databaseName.Rooms, {
             columns: ['id'], //查询字段，全部查询则不写，相当于查询*
         })
         const SET_ROOMS = new Set(res.map(v => v.id))
 
-        const id = socket.id;
         const namespace = app.io.of('/')
-        const query = socket.handshake.query;
-
-        // 用户信息
-        const { room } = query;
-        // const rooms = [room];
-        const rooms = room.split(',');
-        logger.debug('#user_info', id, room, id);
 
         const tick = (id, msg) => {
             logger.debug('#tick', id, msg);
@@ -42,6 +49,8 @@ module.exports = () => {
             //     logger.error(err);
             // });
         };
+
+        // 循环进入房间
         rooms.forEach(room => {
             const hasRoom = SET_ROOMS.has(room)
             logger.debug('#has_exist', hasRoom);
@@ -61,7 +70,7 @@ module.exports = () => {
             // 在线列表
             namespace.adapter.clients(rooms, async (err, clients) => {
                 logger.debug('#online_join', clients);
-                const { name } = await app.mysql.get(app.config.databaseName.User, { id })     
+                const { name } = await app.mysql.get(app.config.databaseName.User, { id })
                 // 更新在线用户列表
                 namespace.to(room).emit('online', {
                     clients,
@@ -74,14 +83,13 @@ module.exports = () => {
                 });
             });
         })
-      
 
         await next();
 
         // 用户离开
-        logger.debug('#leave', room);
+        logger.debug('#leave', OwnRoom);
 
-        // 在线列表
+        // 在线列表 - 通知离开
         namespace.adapter.clients(rooms, (err, clients) => {
             logger.debug('#online_leave', clients);
             // 获取 client 信息
@@ -93,7 +101,7 @@ module.exports = () => {
             // });
 
             rooms.forEach(async room => {
-                const { name } = await app.mysql.get(app.config.databaseName.User, { id })     
+                const { name } = await app.mysql.get(app.config.databaseName.User, { id })
 
                 // 更新在线用户列表
                 namespace.to(room).emit('online', {
