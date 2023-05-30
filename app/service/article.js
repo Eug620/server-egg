@@ -5,7 +5,7 @@ class ArticleService extends Service {
   /**
    * @returns user list all
    */
-  async all () {
+  async all() {
     const SQL_STRING =
       `
       select 
@@ -26,8 +26,8 @@ class ArticleService extends Service {
   /**
    * @returns user list 
    */
-  async index () {
-    const { size, page } = this.ctx.params
+  async index() {
+    const { size, page, keyword } = this.ctx.params
     const current_size = size || 10
     const current_page = ((isNaN(page) || page < 1) ? 0 : page - 1) * current_size
     const SQL_STRING =
@@ -41,7 +41,9 @@ class ArticleService extends Service {
         article.create_time, 
         user.name as user_name, 
         (SELECT COUNT(*) FROM ${this.app.config.databaseName.Article_Comment} WHERE article_id = article.id ) as count
-      from article LEFT JOIN user ON user.id = article.author
+      from ${this.app.config.databaseName.Article}
+      LEFT JOIN ${this.app.config.databaseName.User} ON user.id = article.author
+      ${keyword ? `where article.title like '%${keyword}%'` : ''}
       order by create_time DESC
       LIMIT ${current_page}, ${current_size}
     `
@@ -52,7 +54,7 @@ class ArticleService extends Service {
   /**
    * @returns user detail 
    */
-  async detail () {
+  async detail() {
     const { id } = this.ctx.params
     const SQL_STRING =
       `
@@ -75,13 +77,13 @@ class ArticleService extends Service {
         id: id
       }
     }
-    await this.app.mysql.update(this.app.config.databaseName.Article,{
+    await this.app.mysql.update(this.app.config.databaseName.Article, {
       page_views: result.page_views + 1
     }, options)
     return result || {};
   }
 
-  async add () {
+  async add() {
     const { title, describe, content, decode } = this.ctx.params
     const user_list = await this.app.mysql.select(this.app.config.databaseName.User, {
       where: {
@@ -131,7 +133,7 @@ class ArticleService extends Service {
       }
     }
   }
-  async update () {
+  async update() {
     const { title, describe, content, id, decode } = this.ctx.params
     // 判断是否为当前所属用户的文章
     const article_detail = await this.app.mysql.select(this.app.config.databaseName.Article, {
@@ -167,7 +169,7 @@ class ArticleService extends Service {
     }
   }
 
-  async delete () {
+  async delete() {
     const { id, decode } = this.ctx.params
     // 判断是否为当前所属用户的文章
     const article_detail = await this.app.mysql.select(this.app.config.databaseName.Article, {
