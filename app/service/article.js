@@ -10,6 +10,7 @@ class ArticleService extends Service {
       `
       select 
         author,
+        tag,
         page_views,
         article.id,
         article.title,
@@ -34,6 +35,7 @@ class ArticleService extends Service {
       `
       select 
         author, 
+        tag,
         page_views, 
         article.id, 
         article.title, 
@@ -60,6 +62,7 @@ class ArticleService extends Service {
       `
       select 
         author, 
+        tag,
         page_views, 
         article.id, 
         article.title, 
@@ -84,7 +87,7 @@ class ArticleService extends Service {
   }
 
   async add() {
-    const { title, describe, content, decode } = this.ctx.params
+    const { title, describe, content,tag, decode } = this.ctx.params
     const user_list = await this.app.mysql.select(this.app.config.databaseName.User, {
       where: {
         id: decode.id
@@ -98,6 +101,7 @@ class ArticleService extends Service {
         (
           id,
           title,
+          tag,
           author,
           content,
           article.describe,
@@ -107,6 +111,7 @@ class ArticleService extends Service {
         VALUES
         (
           '${id}',
+          '',
           '',
           '${decode.id}',
           '',
@@ -121,7 +126,7 @@ class ArticleService extends Service {
           id
         }
       }
-      await this.app.mysql.update(this.app.config.databaseName.Article, { title, content, describe }, options)
+      await this.app.mysql.update(this.app.config.databaseName.Article, { title, content, describe, tag }, options)
       return {
         code: 200,
         message: '新增成功'
@@ -134,7 +139,7 @@ class ArticleService extends Service {
     }
   }
   async update() {
-    const { title, describe, content, id, decode } = this.ctx.params
+    const { title, describe, tag, content, id, decode } = this.ctx.params
     // 判断是否为当前所属用户的文章
     const article_detail = await this.app.mysql.select(this.app.config.databaseName.Article, {
       where: {
@@ -162,7 +167,7 @@ class ArticleService extends Service {
         id
       }
     }
-    await this.app.mysql.update(this.app.config.databaseName.Article, { title, content, describe }, options)
+    await this.app.mysql.update(this.app.config.databaseName.Article, { title, content,tag, describe }, options)
     return {
       code: 200,
       message: '更新文章成功'
