@@ -94,7 +94,7 @@ class UserService extends Service {
   async login() {
     const { app } = this;
     const { name, password } = this.ctx.params
-    let result = await this.ctx.service.user.getUserInfo({ name, password})
+    let result = await this.ctx.service.user.getUserInfo({ name, password })
     if (result) {
       delete result['password']
       //生成 token 的方式
@@ -129,6 +129,79 @@ class UserService extends Service {
   // 用户是否存在
   getUserInfo(opt) {
     return this.app.mysql.get(this.app.config.databaseName.User, opt)
+  }
+
+  async visitorInfoAdd() {
+    const { decode, ...params } = this.ctx.params
+    await this.app.mysql.insert(this.app.config.databaseName.Visitor_Info, Object.assign(params, {
+      user: decode.id,
+      id: UUID.v4()
+    }))
+  }
+
+  /**
+   * 默认 第一页 10 条
+   */
+  async visitorInfoIndex() {
+    const { size, page, decode } = this.ctx.params
+    const { Visitor_Info, User } = this.app.config.databaseName
+    const current_size = size || 10
+    const current_page = ((isNaN(page) || page < 1) ? 0 : page - 1) * current_size
+    const SQL_STRING = `
+        SELECT
+          browser, 
+          browser_ver, 
+          fl, 
+          high, 
+          ip, 
+          location, 
+          low, 
+          ${Visitor_Info}.system as system_name, 
+          time, 
+          tip, 
+          tq, 
+          week, 
+          ${Visitor_Info}.id as id, 
+          user, 
+          ${User}.name as user_name
+        FROM 
+        (
+          ${Visitor_Info} LEFT JOIN ${User} ON ${User}.id = ${Visitor_Info}.user
+        )
+        where '${decode.id}' = user
+        ORDER BY time DESC  
+        LIMIT ${current_page}, ${current_size}
+      `
+    const result = await this.app.mysql.query(SQL_STRING)
+    return result;
+  }
+  async visitorInfoAll() {
+    const { Visitor_Info, User } = this.app.config.databaseName
+    const SQL_STRING = `
+        SELECT
+          browser, 
+          browser_ver, 
+          fl, 
+          high, 
+          ip, 
+          location, 
+          low, 
+          ${Visitor_Info}.system as system_name, 
+          time, 
+          tip, 
+          tq, 
+          week, 
+          ${Visitor_Info}.id as id, 
+          user, 
+          ${User}.name as user_name
+        FROM 
+        (
+          ${Visitor_Info} LEFT JOIN ${User} ON ${User}.id = ${Visitor_Info}.user
+        )
+        ORDER BY time DESC  
+      `
+    const result = await this.app.mysql.query(SQL_STRING)
+    return result;
   }
 }
 

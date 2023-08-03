@@ -1,8 +1,8 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 14:50:53
- * @LastEditTime : 2022-03-18 15:40:38
- * @LastEditors  : Eug
+ * @LastEditTime : 2023-08-03 15:28:46
+ * @LastEditors  : eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/router/user.js
  */
@@ -28,4 +28,9 @@ module.exports = app => {
     router.post('/user/delete', jwt, controller.user.delete)
     router.get('/user/index', jwt, controller.user.index)
     router.post('/user/login', controller.user.login)
+
+
+    router.post('/visitor-info/add', jwt, controller.user.visitorInfoAdd)
+    router.get('/visitor-info/index', jwt, controller.user.visitorInfoIndex)
+    router.get('/visitor-info/all', jwt, controller.user.visitorInfoAll)
 };

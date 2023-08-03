@@ -42,6 +42,23 @@ class UserController extends Controller {
     const { msg, result, token, code } = await this.ctx.service.user.login();
     this.ctx.returnBody(code, msg, result, { token })
   }
+
+
+  async visitorInfoAdd () {
+    await this.ctx.service.user.visitorInfoAdd();
+    this.ctx.returnBody(200, '新增成功')
+  }
+
+  // 分页
+  async visitorInfoIndex () {
+    const result = await this.ctx.service.user.visitorInfoIndex();
+    this.ctx.returnBody(200, '查询成功', result)
+  }
+
+  async visitorInfoAll () {
+    const result = await this.ctx.service.user.visitorInfoAll();
+    this.ctx.returnBody(200, '查询成功', result)
+  }
 }
 
 module.exports = UserController;

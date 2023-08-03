@@ -4,7 +4,7 @@
  * @LastEditTime: 2022-08-27 18:52:35
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
- * @FilePath     : /egg-example/app/validateConfig/user.js
+ * @FilePath     : /server-egg/app/validateConfig/user.js
  */
 module.exports = {
   add: {
@@ -23,5 +23,5 @@ module.exports = {
   login: {
     name: { type: 'string', required: true },
     password: { type: 'string', required: true },
-  }
+  },
 }

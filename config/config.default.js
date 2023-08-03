@@ -36,6 +36,7 @@ module.exports = appInfo => {
       Rooms_Staff: 'Rooms_Staff',// 房间成员表
       Rooms_Record: 'Rooms_Record',
       User_Friend: 'User_Friend',// 用户好友表
+      Visitor_Info: 'Visitor_Info',// 登陆相关信息
     },
     // 状态码
     statusType: {
