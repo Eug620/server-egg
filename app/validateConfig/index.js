@@ -18,4 +18,5 @@ module.exports = {
     image: require('./image'),
     minio: require('./minio'),
     ['visitor-info']: require('./visitor-info'),
+    ['word-cloud']: require('./word-cloud'),
 }

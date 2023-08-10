@@ -28,6 +28,7 @@ module.exports = app => {
   require('./router/user')(app);
   require('./router/image')(app);
   require('./router/article')(app);
+  require('./router/wordCloud')(app);
   require('./router/comment')(app);
   require('./router/route')(app);
   require('./router/rooms')(app);

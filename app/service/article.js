@@ -49,6 +49,8 @@ class ArticleService extends Service {
       order by create_time DESC
       LIMIT ${current_page}, ${current_size}
     `
+    // 记录热词
+    this.ctx.service.wordCloud.addRecord(keyword)
     const result = await this.app.mysql.query(SQL_STRING)
     return result;
   }
