@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2023-08-10 16:46:53
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-08-10 16:47:07
+ * @LastEditTime : 2023-08-10 16:50:59
  * @FilePath     : /server-egg/app/router/wordCloud.js
  * @Description  : filename
  * 
@@ -14,5 +14,5 @@
  */
 module.exports = app => {
     const { router, controller, jwt } = app;
-    router.get('/word-cloud/allByMonth', controller.article.allByMonth)
+    router.get('/word-cloud/allByMonth', controller.wordCloud.allByMonth)
 };
