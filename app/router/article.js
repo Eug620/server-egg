@@ -18,4 +18,5 @@ module.exports = app => {
     router.post('/article/add', jwt, controller.article.add)
     router.post('/article/update', jwt, controller.article.update)
     router.post('/article/delete', jwt, controller.article.delete)
+    router.get('/article/tags', controller.article.tags)
 };

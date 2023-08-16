@@ -1,8 +1,8 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-08 15:33:55
- * @LastEditTime : 2022-03-11 15:42:27
- * @LastEditors  : Eug
+ * @LastEditTime : 2023-08-16 15:26:11
+ * @LastEditors  : eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /server-egg/app/controller/article.js
  */
@@ -51,6 +51,12 @@ class ArticleController extends Controller {
     const { ctx } = this;
     const { code , message } = await ctx.service.article.delete();
     this.ctx.returnBody(code , message, null)
+  }
+
+  async tags() {
+    const result = await this.ctx.service.article.tags();
+    this.ctx.body = result
+    this.ctx.returnBody(200, '查询成功', result)
   }
 }
 module.exports = ArticleController;

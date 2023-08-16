@@ -28,7 +28,7 @@ class ArticleService extends Service {
    * @returns user list 
    */
   async index() {
-    const { size, page, keyword } = this.ctx.params
+    const { size, page, keyword = '', tag = '' } = this.ctx.params
     const current_size = size || 10
     const current_page = ((isNaN(page) || page < 1) ? 0 : page - 1) * current_size
     const SQL_STRING =
@@ -45,14 +45,14 @@ class ArticleService extends Service {
         (SELECT COUNT(*) FROM ${this.app.config.databaseName.Article_Comment} WHERE article_id = article.id ) as count
       from ${this.app.config.databaseName.Article}
       LEFT JOIN ${this.app.config.databaseName.User} ON user.id = article.author
-      ${keyword ? `where article.title like '%${keyword}%'` : ''}
+      ${`where article.title like '%${keyword}%' and article.tag like '%${tag}%'`}
       order by create_time DESC
       LIMIT ${current_page}, ${current_size}
     `
     // 记录热词
-    this.ctx.service.wordCloud.addRecord(keyword)
+    await this.ctx.service.wordCloud.addRecord(keyword)
     const result = await this.app.mysql.query(SQL_STRING)
-    return result;
+    return result
   }
 
   /**
@@ -89,7 +89,7 @@ class ArticleService extends Service {
   }
 
   async add() {
-    const { title, describe, content,tag, decode } = this.ctx.params
+    const { title, describe, content, tag, decode } = this.ctx.params
     const user_list = await this.app.mysql.select(this.app.config.databaseName.User, {
       where: {
         id: decode.id
@@ -169,7 +169,7 @@ class ArticleService extends Service {
         id
       }
     }
-    await this.app.mysql.update(this.app.config.databaseName.Article, { title, content,tag, describe }, options)
+    await this.app.mysql.update(this.app.config.databaseName.Article, { title, content, tag, describe }, options)
     return {
       code: 200,
       message: '更新文章成功'
@@ -207,6 +207,16 @@ class ArticleService extends Service {
       code: 200,
       message: '删除文章成功'
     }
+  }
+
+  async tags() {
+    const tagsTable = await this.app.mysql.select(this.app.config.databaseName.Article, {
+      columns: ['tag']
+    })
+    const tagsList = tagsTable.map(v => v.tag)
+    const tagsAll = tagsList.filter(v => v).join(',').split(',')
+    const tagsSet = Array.from(new Set(tagsAll))
+    return tagsSet
   }
 }
 module.exports = ArticleService;
