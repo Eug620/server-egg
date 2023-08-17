@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2023-03-29 15:44:32
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-29 17:06:35
+ * @LastEditTime : 2023-08-17 17:47:08
  * @FilePath     : /server-egg/app/controller/minio.js
  * @Description  : filename
  * 
@@ -11,6 +11,7 @@
 'use strict';
 
 const Controller = require('egg').Controller;
+const UUID = require('uuid')
 
 class UserController extends Controller {
     // 桶名 all
@@ -42,6 +43,40 @@ class UserController extends Controller {
             })
         })
 
+    }
+
+    // 上传
+    async upload() {
+        const minio = this.ctx.helper.getMinioInstance()
+        const { ctx } = this;
+        const { req } = ctx;
+        // const stream = await this.ctx.getFileStream();单个文件使用
+        const parts = ctx.multipart();
+        let part;
+        let result = []
+        while ((part = await parts()) != null) {
+            if (part.length) {
+                console.log("field: " + part[0]);
+                console.log("value: " + part[1]);
+            } else {
+                if (!part.filename) {
+                    continue;
+                }
+                const filename = `${UUID.v4()}_${part.filename}`
+                // console.log("field: " + part.fieldname);
+                // console.log("filename: " + filename);
+                // console.log("encoding: " + part.encoding);
+                // console.log("mime: " + part.mime);
+                result.push(`https://eug.asia/minio/${this.ctx.params.path}/${filename}`)
+                minio.putObject(this.ctx.params.path, filename, part, (err, etag) => {
+                    if (!err) {
+                        this.ctx.returnBody(204, '上传失败', [])
+                        return
+                    }
+                })
+            }
+        }
+        this.ctx.returnBody(200, '上传成功', result)
     }
 }
 
