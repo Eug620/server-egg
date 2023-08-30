@@ -1,10 +1,10 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 16:37:45
- * @LastEditTime : 2022-02-11 16:49:20
- * @LastEditors  : Eug
+ * @LastEditTime : 2023-08-30 12:36:32
+ * @LastEditors  : eug yyh3531@163.com
  * @Descripttion : Descripttion
- * @FilePath     : /egg-example/app/schedule/cron.js
+ * @FilePath     : /server-egg/app/schedule/cron.js
  */
 // 定点任务
 // 定点任务（以每周一的5点30分0秒更新排行榜为例）
@@ -26,6 +26,7 @@ module.exports = {
     type: 'all', // 指定所有的 worker 都需要执行
   },
   async task(ctx) {
+    console.log('schedule: cron');
   //   i++
   //   console.log('只执行一次的任务', i)
   },

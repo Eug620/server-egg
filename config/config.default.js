@@ -166,6 +166,33 @@ module.exports = appInfo => {
     secret: "88888888"//自定义 token 的加密条件字符串
   };
 
+
+  // formdata 配置
+  config.multipart = {
+    // mode: 'file',
+    // allowArrayField: true,
+    fileExtensions: [
+      '.pdf',
+      '.xlsx',
+      '.xls',
+      '.png',
+      '.jpg',
+      '.jpeg',
+      '.mp3',
+      '.mp4',
+      '.wav',
+      '.js',
+      '.css',
+      '.html',
+      '.vue',
+      '.jsx',
+      '.tsx',
+      '.json',
+      '.md',
+      '.text'
+    ]
+  }
+
   // websocket
   config.io = {
     init: {

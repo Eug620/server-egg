@@ -17,6 +17,7 @@ module.exports = {
     rooms: require('./rooms'),
     image: require('./image'),
     minio: require('./minio'),
+    assets: require('./assets'),
     ['visitor-info']: require('./visitor-info'),
     ['word-cloud']: require('./word-cloud'),
 }

@@ -1,10 +1,10 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-02-11 16:30:56
- * @LastEditTime : 2022-02-11 16:51:11
- * @LastEditors  : Eug
+ * @LastEditTime : 2023-08-30 12:35:55
+ * @LastEditors  : eug yyh3531@163.com
  * @Descripttion : Descripttion
- * @FilePath     : /egg-example/app/schedule/test.js
+ * @FilePath     : /server-egg/app/schedule/test.js
  */
 // 在app/schedule目录下新建一个js文件，每一个js文件就是一个定时任务
 // var i = 0
@@ -14,6 +14,7 @@ module.exports = {
     type: 'all', // 指定所有的 worker 都需要执行
   },
   async task(ctx) {
+    console.log('schedule: test 1m');
   //   i++
   //   console.log('定时任务,每分钟执行一次', i)
   },

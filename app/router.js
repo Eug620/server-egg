@@ -33,4 +33,5 @@ module.exports = app => {
   require('./router/route')(app);
   require('./router/rooms')(app);
   require('./router/minio')(app);
+  require('./router/assets')(app);
 };
