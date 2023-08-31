@@ -16,8 +16,8 @@ class FileController extends Controller {
     this.ctx.returnBody(200, '上传成功')
   }
   async finish() {
-    await this.ctx.service.assets.finish();
-    this.ctx.returnBody(200, '上传成功')
+    const { code , message } = await this.ctx.service.assets.finish();
+    this.ctx.returnBody(code, message)
   }
 
   async fileList() {

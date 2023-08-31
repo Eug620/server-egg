@@ -60,7 +60,7 @@ class FileService extends Service {
       await this.ctx.helper.removeDir(path.resolve(this.app.baseDir, 'upload', pathdir))
       await Promise.reject({
         status: 422,
-        message: '上传失败'
+        message: `上传失败[${chunkPaths.length}/${total}]`
       })
       return
     }
@@ -78,6 +78,10 @@ class FileService extends Service {
     ))
     // 删除目录
     await this.ctx.helper.removeDir(path.resolve(this.app.baseDir, 'upload', pathdir))
+    return {
+      code: 200,
+      message: `文件合并完毕[${pathdir}]`
+    }
   }
 
   async fileList() {
