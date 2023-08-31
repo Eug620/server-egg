@@ -1,11 +1,17 @@
+const fse = require("fs-extra");
+const path = require('path');
+
+/**
+ * 定时清理upload
+ */
 module.exports = {
     schedule: {
-        interval: '1s', // 1 分钟间隔
+        cron: '59 59 23 * * 7', // 1 分钟间隔
         type: 'all', // 指定所有的 worker 都需要执行
     },
     async task(ctx) {
-        console.log('schedule: hhhhh 1s');
-    //   i++
-    //   console.log('只执行一次的任务', i)
+        console.log('schedule: day 7, date 23:59:59');
+        await ctx.helper.removeDir(path.resolve(ctx.app.baseDir, 'upload'))
+        fse.mkdir(path.resolve(ctx.app.baseDir, 'upload'))
     },
   };

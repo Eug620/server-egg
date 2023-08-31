@@ -57,7 +57,7 @@ class FileService extends Service {
     if (total != chunkPaths.length) {
       const Paths = await fse.readdir(path.resolve(this.app.baseDir, 'upload', pathdir))
       await Promise.all(Paths.map(item => fse.rmSync(path.resolve(this.app.baseDir, 'upload', pathdir, item))))
-      fse.rmdir(path.resolve(this.app.baseDir, 'upload', pathdir), () => { })
+      await this.ctx.helper.removeDir(path.resolve(this.app.baseDir, 'upload', pathdir))
       await Promise.reject({
         status: 422,
         message: '上传失败'
@@ -77,7 +77,7 @@ class FileService extends Service {
       )
     ))
     // 删除目录
-    fse.rmdir(path.resolve(this.app.baseDir, 'upload', pathdir), () => { })
+    await this.ctx.helper.removeDir(path.resolve(this.app.baseDir, 'upload', pathdir))
   }
 
   async fileList() {
