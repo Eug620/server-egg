@@ -13,5 +13,7 @@ module.exports = {
         console.log('schedule: day 7, date 23:59:59');
         await ctx.helper.removeDir(path.resolve(ctx.app.baseDir, 'upload'))
         fse.mkdir(path.resolve(ctx.app.baseDir, 'upload'))
+        await ctx.helper.removeDir(path.resolve(ctx.app.baseDir, 'chunk'))
+        fse.mkdir(path.resolve(ctx.app.baseDir, 'chunk'))
     },
   };
