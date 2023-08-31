@@ -40,47 +40,55 @@ class FileService extends Service {
   }
 
   async finish() {
-    const { size, name, total } = this.ctx.params
-    const pathdir = name.split('.').slice(0, -1).join('.')
-    const filename = name
-    // 写入文件流
-    const pipeStream = (path, writeStream) =>
-      new Promise(resolve => {
-        const readStream = fse.createReadStream(path);
-        readStream.on("end", () => {
-          fse.unlinkSync(path);
-          resolve();
+    try {
+      const { size, name, total } = this.ctx.params
+      const pathdir = name.split('.').slice(0, -1).join('.')
+      const filename = name
+      // 写入文件流
+      const pipeStream = (path, writeStream) =>
+        new Promise(resolve => {
+          const readStream = fse.createReadStream(path);
+          readStream.on("end", () => {
+            fse.unlinkSync(path);
+            resolve();
+          });
+          readStream.pipe(writeStream);
         });
-        readStream.pipe(writeStream);
-      });
-    const chunkPaths = await fse.readdir(path.resolve(this.app.baseDir, 'upload', pathdir))
-    if (total != chunkPaths.length) {
-      const Paths = await fse.readdir(path.resolve(this.app.baseDir, 'upload', pathdir))
-      await Promise.all(Paths.map(item => fse.rmSync(path.resolve(this.app.baseDir, 'upload', pathdir, item))))
-      await this.ctx.helper.removeDir(path.resolve(this.app.baseDir, 'upload', pathdir))
-      await Promise.reject({
-        status: 422,
-        message: `上传失败[${chunkPaths.length}/${total}]`
-      })
-      return
-    }
-    chunkPaths.sort((a, b) => a.split("-")[1] - b.split("-")[1]);
-    await Promise.all(chunkPaths.map((chunkPath, idx) =>
-      pipeStream(
-        path.resolve(this.app.baseDir,
-          'upload', pathdir, chunkPath),
-        // 根据 size 在指定位置创建可写流
-        fse.createWriteStream(path.resolve(this.app.baseDir,
-          'upload', filename), {
-          start: idx * size,
+
+      const chunkPaths = await fse.readdir(path.resolve(this.app.baseDir, 'upload', pathdir))
+      if (total != chunkPaths.length) {
+        // const Paths = await fse.readdir(path.resolve(this.app.baseDir, 'upload', pathdir))
+        // await Promise.all(Paths.map(item => fse.rmSync(path.resolve(this.app.baseDir, 'upload', pathdir, item))))
+        await this.ctx.helper.removeDir(path.resolve(this.app.baseDir, 'upload', pathdir))
+        await Promise.reject({
+          status: 422,
+          message: `上传失败[${chunkPaths.length}/${total}]`
         })
-      )
-    ))
-    // 删除目录
-    await this.ctx.helper.removeDir(path.resolve(this.app.baseDir, 'upload', pathdir))
-    return {
-      code: 200,
-      message: `文件合并完毕[${pathdir}]`
+        return
+      }
+      chunkPaths.sort((a, b) => a.split("-")[1] - b.split("-")[1]);
+      await Promise.all(chunkPaths.map((chunkPath, idx) =>
+        pipeStream(
+          path.resolve(this.app.baseDir,
+            'upload', pathdir, chunkPath),
+          // 根据 size 在指定位置创建可写流
+          fse.createWriteStream(path.resolve(this.app.baseDir,
+            'upload', filename), {
+            start: idx * size,
+          })
+        )
+      ))
+      // 删除目录
+      await this.ctx.helper.removeDir(path.resolve(this.app.baseDir, 'upload', pathdir))
+      return {
+        code: 200,
+        message: `文件合并完毕[${pathdir}]`
+      }
+    } catch (e) {
+      return {
+        code: 422,
+        message: e
+      }
     }
   }
 
@@ -110,7 +118,7 @@ class FileService extends Service {
 
   async delete() {
     const { name } = this.ctx.params
-    console.log('name>>>>',name);
+    console.log('name>>>>', name);
     await fse.rmSync(path.resolve(this.app.baseDir, 'upload', name))
   }
 }
