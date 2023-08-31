@@ -95,8 +95,13 @@ class FileService extends Service {
   }
 
   async cleans() {
-    const chunkPaths = await fse.readdir(path.resolve(this.app.baseDir, 'upload'))
-    await Promise.all(chunkPaths.map(item => fse.rmSync(path.resolve(this.app.baseDir, 'upload', item))))
+    const { dir } = this.ctx.params
+    if (dir) {
+      await this.ctx.helper.removeDir(path.resolve(this.app.baseDir, 'upload', dir))
+    } else {
+      const chunkPaths = await fse.readdir(path.resolve(this.app.baseDir, 'upload'))
+      await Promise.all(chunkPaths.map(item => fse.rmSync(path.resolve(this.app.baseDir, 'upload', item))))
+    }
   }
 
   async delete() {
