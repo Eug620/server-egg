@@ -34,4 +34,5 @@ module.exports = app => {
   require('./router/rooms')(app);
   require('./router/minio')(app);
   require('./router/assets')(app);
+  require('./router/backlog')(app);
 };

@@ -38,6 +38,7 @@ module.exports = appInfo => {
       User_Friend: 'User_Friend',// 用户好友表
       Visitor_Info: 'Visitor_Info',// 登陆相关信息
       Word_Cloud: 'Word_Cloud',// 热词相关信息
+      Backlog: 'Backlog',// 待办相关信息
     },
     // 状态码
     statusType: {
