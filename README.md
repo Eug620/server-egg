@@ -1,35 +1,31 @@
-# example
+# server-egg
 
+### 使用
 
-### 学习一下egg
+```
+    为 micro-base/micro-vue/micro-react 提供接口支持
 
-
-## QuickStart
-
-<!-- add docs here for user -->
-
-see [egg docs][egg] for more detail.
-
-### Development
-
-```bash
-$ npm i
-$ npm run dev
-$ open http://localhost:7001/
 ```
 
-### Deploy
+### 数据库
 
-```bash
-$ npm start
-$ npm stop
+```
+    database //表定义信息
+
 ```
 
-### npm scripts
+### 功能
 
-- Use `npm run lint` to check code style.
-- Use `npm test` to run unit test.
-- Use `npm run autod` to auto detect dependencies upgrade, see [autod](https://www.npmjs.com/package/autod) for more detail.
-
-
-[egg]: https://eggjs.org
+```
+    user //用户接口: jwt/全部/列表/新增/更新/删除/登陆/登陆记录
+    route //路由接口: 新增
+    image //图片接口: 全部/新增/更新/删除/随机
+    article //文章接口: 全部/列表/详情/新增/更新/删除/标签
+    wordCloud //关键词接口: 全部
+    comment // 评论接口: 全部/新增/删除
+    rooms //聊天室接口: 全部/新增/更新/删除/加入/踢人/我的/聊天记录
+    minio //文件上传: 全部桶/桶内信息/上传
+    assets //切片上传: 上传/合并/列表/清空/删除/获取指定文件
+    backlog //待办信息: 保存/详情
+    
+```
