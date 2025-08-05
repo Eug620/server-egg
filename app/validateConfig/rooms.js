@@ -25,5 +25,8 @@ module.exports = {
     deleteUser: {
         room_id: { type: 'string', required: true },
         user_id: { type: 'string', required: true },
+    },
+    search:{
+
     }
 }

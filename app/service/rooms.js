@@ -281,6 +281,14 @@ class UserService extends Service {
         })
         return { code: 200, message: '查询成功', result }
     }
+    async search() {
+        const { id, name } = this.ctx.params
+        const result = await this.app.mysql.query(`
+            select * from ${this.app.config.databaseName.Rooms}
+            where id = '${id}' or name like '%${name}%'
+        `)
+        return { code: 200, message: '查询成功', result }
+    }
 }
 
 module.exports = UserService;

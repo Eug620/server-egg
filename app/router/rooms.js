@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-23 11:33:44
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-01 15:50:13
+ * @LastEditTime : 2025-08-05 15:16:49
  * @FilePath     : /server-egg/app/router/rooms.js
  * @Description  : filename
  * 
@@ -21,6 +21,7 @@ module.exports = app => {
     router.post('/rooms/update', jwt, controller.rooms.update)
     router.post('/rooms/delete', jwt, controller.rooms.delete)
     router.post('/rooms/join', jwt, controller.rooms.join)
+    router.get('/rooms/search', jwt, controller.rooms.search)
 
     // 
     router.post('/rooms/deleteUser', jwt, controller.rooms.deleteUser)

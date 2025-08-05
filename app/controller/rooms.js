@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-23 11:33:44
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-01 16:27:38
+ * @LastEditTime : 2025-08-05 15:17:39
  * @FilePath     : /server-egg/app/controller/rooms.js
  * @Description  : filename
  * 
@@ -57,6 +57,11 @@ class RoomsController extends Controller {
     async records() {
         const { code, message, result } = await this.ctx.service.rooms.records();
         this.ctx.returnBody(code, message, result)
+    }
+
+    async search() {
+        const result = await this.ctx.service.rooms.search();
+        this.ctx.returnBody(200, '查询成功', result)
     }
 }
 
