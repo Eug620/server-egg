@@ -15,7 +15,7 @@ module.exports = {
         component_path: { type: 'string', required: true },
         description: { type: 'string', required: true },
         icon: { type: 'string', required: true },
-        redirect: { type: 'string', required: true },
+        // redirect: { type: 'string', required: true },
         service: { type: 'string', required: true },
         title: { type: 'string', required: true },
     }
